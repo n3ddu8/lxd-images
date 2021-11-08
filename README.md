@@ -25,7 +25,7 @@ The following images can be built :
 Firstly, install `distrobuilder` using `snap` :
 
 ```shell
-$ snap install distrobuilder --edge --classic
+$ snap install distrobuilder --classic
 ```
 
 Then, build the image using `distrobuilder` (and import it directly) :
