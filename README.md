@@ -31,20 +31,21 @@ Then, build the image using `distrobuilder` (and import it directly) :
 * **Container image**
 
   ```shell
-  $ distrobuilder build-lxd fedora/default.yml --type=unified --compression=zstd --import-into-lxd=<image alias>
+  $ distrobuilder build-lxd fedora.yml --type=unified --compression=zstd --import-into-lxd=<image alias>
   ```
 
 * **Virtual machine image**
 
   ```shell
-  $ distrobuilder build-lxd ubuntu/default.yml --type=unified --compression=zstd --vm --import-into-lxd=<image alias>
+  $ distrobuilder build-lxd ubuntu.yml --type=unified --compression=zstd --vm --import-into-lxd=<image alias>
   ```
 
-You can also specify a distribution release version or architecture with the `-o image.*` flag :
+You can also specify an image variant, a distribution release version or a different architecture with the `-o image.*` flag :
 
   ```shell
-  $ distrobuilder build-lxd fedora/default.yml -o image.release=35 [options]
-  $ distrobuilder build-lxd ubuntu/default.yml -o image.release=impish -o image.architecture=arm64 [options]
+  $ distrobuilder build-lxd fedora.yml -o image.variant=k8s [options]
+  $ distrobuilder build-lxd fedora.yml -o image.release=35 [options]
+  $ distrobuilder build-lxd ubuntu.yml -o image.release=impish -o image.architecture=arm64 [options]
   ```
 ### References
 
