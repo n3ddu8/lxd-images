@@ -2,20 +2,20 @@
 
 Manifests to build LXD images using Distrobuilder (containers and virtual machines).
 
-### Images
+#### Images
 
-The following images can be built :
+The following distribution images can be built :
 
-| Name           | Release    | Variant      | Architecture | Container   |  Virtual machine     |
-| :--------------| :----------| :------------| :------------| :-----------| :------------------- |
-| Fedora         | 35         | `default`    | `x86_64`     | ✅          | ✅                  |
-|                |            |              |              |             |                      |
-| Ubuntu         | 21.10      | `default`    | `x86_64`     | ✅          | ✅                  |
-| Ubuntu         | 21.10      | `k8s`        | `x86_64`     | ❌          | ✅                  |
+| Distribution   | Default release   | Variants     | Architecture | Container  | Virtual machine  |
+| :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
+| Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
+|                |                   |              |              |            |                  |
+| Ubuntu         | `impish` (21.10)  | `default`    | `amd64`      | ✅         | ✅               |
+| Ubuntu         | `impish` (21.10)  | `k8s`        | `amd64`      | ❌         | ✅               |
 
-### Requirements
+#### Requirements
 
-- LXD >= 4.0
+- LXD >= 4.0 (for virtual machines support)
 - Distrobuilder >= 2.0
 
 ### How to build these images ?
