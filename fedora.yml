@@ -15,7 +15,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 21474836480 # 20 GiB
+      size: 34359738368 # 32 GiB
 
 packages:
   manager: dnf
@@ -221,138 +221,58 @@ files:
     - vm
 
   - path: /etc/sysctl.d/90-tuning.conf
-    generator: dump
-    content: |-
-      vm.dirty_ratio = 30
-      vm.dirty_background_ratio = 10
+    source: config/sysctl/90-tuning.conf
+    generator: copy
     types:
     - vm
  
   - path: /etc/udev/rules.d/90-tuning.conf
-    generator: dump
-    content: |-
-      ACTION=="add|change", KERNEL=="sd[a-z]", SUBSYSTEM=="block", ATTR{queue/scheduler}="none"
-      ACTION=="add|change", KERNEL=="sd[a-z]", SUBSYSTEM=="block", ATTR{queue/read_ahead_kb}="4096"
+    source: config/udev/90-tuning.conf
+    generator: copy
     types:
     - vm
 
-  - name: eth0.network
-    path: /etc/systemd/network/eth0.network
-    generator: dump
-    content: |-
-      [Match]
-      Name=eth0
-      [Network]
-      DHCP=ipv4
+  - path: /etc/systemd/network/eth0.network
+    source: config/systemd-networkd/eth0.network
+    generator: copy
     types:
     - container
 
   - path: /etc/systemd/network/enp5s0.network
-    generator: dump
-    content: |-
-      [Match]
-      Name=enp5s0
-      [Network]
-      DHCP=ipv4
+    source: config/systemd-networkd/enp5s0.network
+    generator: copy
     types:
     - vm
 
   - path: /etc/systemd/resolved.conf
-    generator: dump
-    content: |-
-      Cache=yes
-      DNSStubListener=yes
-      ReadEtcHosts=yes
+    source: config/systemd-resolved/resolved.conf
+    generator: copy
   
   - path: /etc/systemd/journald.conf
-    generator: dump
-    content: |-
-      [Journal]
-      Storage=persistent
-      Compress=yes
-      SystemMaxUse=1G
-      SystemMaxFileSize=100M
-      MaxRetentionSec=7day
+    source: config/systemd-journald/journald.conf
+    generator: copy
   
   - path: /etc/systemd/timesyncd.conf
-    generator: dump
-    content: |-
-      [Time]
-      NTP=0.fr.pool.ntp.org pool 1.fr.pool.ntp.org pool 2.fr.pool.ntp.org
+    source: config/systemd-timesyncd/timesyncd.conf
+    generator: copy
     types:
     - vm
 
   - path: /etc/dnf/dnf.conf
-    generator: dump
-    content: |-
-      [main]
-      gpgcheck=1
-      installonly_limit=3
-      clean_requirements_on_remove=True
-      best=False
-      skip_if_unavailable=True
-      defaultyes=True
-      deltarpm=false
-      fastestmirror=false
-      max_parallel_downloads=20
+    source: config/dnf/dnf.conf
+    generator: copy
   
   - path: /etc/yum.repos.d/fedora-cisco-openh264.repo
     generator: remove
 
   - path: /etc/ssh/sshd_config
-    generator: dump
-    content: |-
-      Port 22
-      HostKey /etc/ssh/ssh_host_ed25519_key
-      SyslogFacility AUTH
-      LogLevel INFO
-      LoginGraceTime 30s
-      PermitRootLogin no
-      AuthenticationMethods publickey
-      PubkeyAuthentication yes
-      PasswordAuthentication no
-      PermitEmptyPasswords no
-      AuthorizedKeysFile .ssh/authorized_keys
-      UsePAM yes
-      X11Forwarding no
-      AllowAgentForwarding yes
-      PrintMotd yes
-      Subsystem sftp internal-sftp
+    source: config/ssh/sshd_config
+    generator: copy
   
   - path: /etc/cloud/cloud.cfg
-    generator: dump
-    content: |-
-      #cloud-config
-      users:
-        - default
-      ssh:
-        emit_keys_to_console: false
-      cloud_init_modules:
-        - write-files
-        - users-groups
-        - ssh
-      cloud_config_modules: {}
-      cloud_final_modules: {}
-      system_info:
-        distro: fedora
-        default_user:
-          name: core
-          lock_passwd: False
-          groups: [wheel, adm, systemd-journal]
-          sudo: ["ALL=(ALL) NOPASSWD:ALL"]
-          shell: /bin/bash
-        ssh_svcname: sshd
+    source: config/cloud-init/cloud.cfg
+    generator: copy
   
   - path: /etc/tmux.conf
-    generator: dump
-    content: |-
-      set-option -g status-style bg=green,fg=colour235
-      set-option -g status-left-length 20
-      set-option -g status-left "[Session: #S]"
-      set-window-option -g window-status-current-style fg=colour253,bg=colour236
-      set-window-option -g window-status-current-format " #I: #W "
-      set-window-option -g window-status-format " #I: #W "
-      set-window-option -g window-status-style fg=colour235
-      set -g renumber-windows on
-      set-option -g history-limit 100000
-      set -g default-terminal "screen-256color"
+    source: config/tmux/tmux.conf
+    generator: copy
