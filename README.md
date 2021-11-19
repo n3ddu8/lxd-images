@@ -2,6 +2,8 @@
 
 Manifests to build LXD images using Distrobuilder (containers and virtual machines).
 
+### General informations
+
 #### Images
 
 The following distribution images can be built :
