@@ -1,0 +1,7 @@
+---
+master: salt.cloud.home.lab
+minion_id_caching: True
+mine_enabled: True
+mine_functions:
+  test.ping: []
+  network.ip_addrs: []

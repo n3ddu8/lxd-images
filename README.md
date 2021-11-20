@@ -11,6 +11,7 @@ The following distribution images can be built :
 | Distribution   | Default release   | Variant      | Architecture | Container  | Virtual machine  |
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
 | Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
+| Fedora         | `35`              | `salt`       | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
 | Ubuntu         | `impish` (21.10)  | `default`    | `amd64`      | ✅         | ✅               |
 | Ubuntu         | `impish` (21.10)  | `k8s`        | `amd64`      | ❌         | ✅               |
