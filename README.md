@@ -8,7 +8,7 @@ Manifests to build custom LXD system container and virtual machine images using 
 
 The following distribution images can be built :
 
-| Distribution   | Default release   | Variants     | Architecture | Container  | Virtual machine  |
+| Distribution   | Default release   | Variant      | Architecture | Container  | Virtual machine  |
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
 | Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
@@ -25,7 +25,7 @@ The following distribution images can be built :
 Firstly, install `distrobuilder` using `snap` :
 
 ```shell
-$ snap install distrobuilder --classic
+snap install distrobuilder --classic [--edge]
 ```
 
 Then, build the image using `distrobuilder` (and import it directly) :
@@ -33,21 +33,20 @@ Then, build the image using `distrobuilder` (and import it directly) :
 * **Container image**
 
   ```shell
-  $ distrobuilder build-lxd fedora.yml --type=unified --compression=zstd --import-into-lxd=<image alias>
+  distrobuilder build-lxd fedora.yml --type=unified --compression=zstd --import-into-lxd=<image alias>
   ```
 
 * **Virtual machine image**
 
   ```shell
-  $ distrobuilder build-lxd ubuntu.yml --type=unified --compression=zstd --vm --import-into-lxd=<image alias>
+  distrobuilder build-lxd ubuntu.yml --type=unified --compression=zstd --vm --import-into-lxd=<image alias>
   ```
 
-You can also specify an image variant, a distribution release version or a different architecture with the `-o image.*` flag :
+You can also specify a different image variant, distribution release or architecture with the `-o image.*` flag :
 
   ```shell
-  $ distrobuilder build-lxd fedora.yml -o image.variant=k8s [options]
-  $ distrobuilder build-lxd fedora.yml -o image.release=35 [options]
-  $ distrobuilder build-lxd ubuntu.yml -o image.release=impish -o image.architecture=arm64 [options]
+  distrobuilder build-lxd fedora.yml -o image.variant=k8s [options]
+  distrobuilder build-lxd ubuntu.yml -o image.release=focal -o image.architecture=arm64 [options]
   ```
 ### References
 
