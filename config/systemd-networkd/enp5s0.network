@@ -2,3 +2,5 @@
 Name=enp5s0
 [Network]
 DHCP=ipv4
+[DHCPv4]
+ClientIdentifier=mac
