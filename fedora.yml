@@ -68,7 +68,6 @@ packages:
     - kernel
     - kmod
     - shim
-    - lvm2
     action: install
     types:
     - vm

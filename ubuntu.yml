@@ -70,7 +70,6 @@ packages:
     - grub-efi-amd64-signed
     - linux-virtual
     - shim-signed
-    - lvm2
     action: install
     types:
     - vm
