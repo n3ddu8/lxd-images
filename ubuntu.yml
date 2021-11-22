@@ -291,6 +291,8 @@ files:
   - path: /etc/systemd/resolved.conf
     source: config/systemd-resolved/resolved.conf
     generator: copy
+    variants:
+    - default
 
   # Disable systemd-resolved stub resolver since it can interfere with CoreDNS operations
   # Link: https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/#known-issues
