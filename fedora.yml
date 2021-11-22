@@ -72,12 +72,6 @@ packages:
     types:
     - vm
 
-  - packages:
-    - salt-minion
-    action: install
-    variants:
-    - salt
-
 actions:
   # Remove 'nodocs' flags to ensure packages are installed with their manpages
   - trigger: post-unpack
@@ -132,14 +126,6 @@ actions:
       systemctl enable systemd-timesyncd
     types:
     - vm
-
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      systemctl enable salt-minion
-    variants:
-    - salt
 
   # Remove the "Container Image" string in os-release file
   - trigger: post-files
@@ -289,9 +275,3 @@ files:
   - path: /etc/tmux.conf
     source: config/tmux/tmux.conf
     generator: copy
-
-  - path: /etc/salt/minion
-    source: config/salt/minion
-    generator: copy
-    variants:
-    - salt
