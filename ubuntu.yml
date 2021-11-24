@@ -282,8 +282,8 @@ files:
     variants:
     - k8s
  
-  - path: /etc/udev/rules.d/90-tuning.conf
-    source: config/udev/90-tuning.conf
+  - path: /etc/udev/rules.d/90-tuning.rules
+    source: config/udev/90-tuning.rules
     generator: copy
     types:
     - vm
