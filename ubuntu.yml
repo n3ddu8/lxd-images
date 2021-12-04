@@ -108,6 +108,8 @@ actions:
       umount -l /etc/resolv.conf || true
       rm /etc/resolv.conf
       ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+    variants:
+    - default
 
   # Disable use of stub resolver configuration since it's disabled for Kubernetes
   - trigger: post-packages
