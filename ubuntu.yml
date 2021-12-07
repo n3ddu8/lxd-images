@@ -76,6 +76,7 @@ packages:
 
   - packages:
     - iptables
+    - ipvsadm
     - open-iscsi
     action: install
     types:
