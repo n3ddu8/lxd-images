@@ -149,7 +149,7 @@ actions:
     types:
     - vm
 
-  # OpenISCSI is required for some CSI driver such as OpenEBS or Longhorn
+  # Extra systemd unit to enable for Kubernetes
   - trigger: post-packages
     action: |-
       #!/bin/sh
@@ -258,17 +258,13 @@ files:
       #!/bin/sh
       exit 101
 
-  - path: /etc/netplan/90-config.yaml
-    source: config/netplan/container.yaml
-    generator: copy
-    types:
-    - container
-
-  - path: /etc/netplan/90-config.yaml
-    source: config/netplan/vm.yaml
+  - path: /etc/modules-load.d/k8s.conf
+    source: config/modules-load/k8s.conf
     generator: copy
     types:
     - vm
+    variants:
+    - k8s
 
   - path: /etc/sysctl.d/90-tuning.conf
     source: config/sysctl/90-tuning.conf
@@ -287,6 +283,18 @@ files:
  
   - path: /etc/udev/rules.d/90-tuning.rules
     source: config/udev/90-tuning.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/netplan/90-config.yaml
+    source: config/netplan/container.yaml
+    generator: copy
+    types:
+    - container
+
+  - path: /etc/netplan/90-config.yaml
+    source: config/netplan/vm.yaml
     generator: copy
     types:
     - vm
