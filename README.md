@@ -10,10 +10,11 @@ The following distribution images can be built :
 
 | Distribution   | Default release   | Variant      | Architecture | Container  | Virtual machine  |
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
-| Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅              |
+| Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
-| Ubuntu         | `impish` (21.10)  | `default`    | `amd64`      | ✅         | ✅              |
-| Ubuntu         | `impish` (21.10)  | `k8s`        | `amd64`      | ❌         | ✅              |
+| Ubuntu         | `impish` (21.10)  | `default`    | `amd64`      | ✅         | ✅               |
+| Ubuntu         | `impish` (21.10)  | `default`    | `arm64`      | ✅         | ❌               |
+| Ubuntu         | `impish` (21.10)  | `k8s`        | `amd64`      | ❌         | ✅               |
 
 #### Requirements
 
@@ -33,21 +34,25 @@ Then, build the image using `distrobuilder` (and import it directly) :
 * **Container image**
 
   ```shell
-  distrobuilder build-lxd fedora.yml --type=unified --compression=zstd --import-into-lxd=<image alias>
+  distrobuilder build-lxd fedora.yml --import-into-lxd=<image alias> [options]
   ```
 
 * **Virtual machine image**
 
-  ```shell
-  distrobuilder build-lxd ubuntu.yml --type=unified --compression=zstd --vm --import-into-lxd=<image alias>
-  ```
-
-You can also specify a different image variant, distribution release or architecture with the `-o image.*` flag :
+  You need to add a `--vm` flag in order to build a virtual machine image :
 
   ```shell
-  distrobuilder build-lxd fedora.yml -o image.variant=k8s [options]
-  distrobuilder build-lxd ubuntu.yml -o image.release=focal -o image.architecture=arm64 [options]
+  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
   ```
+
+* **Build image for Raspberry Pi (ARM64)**
+
+  To build an image on Raspberry Pi, you need to specify the architecture and an alternative URL for source packages :
+
+  ```shell
+  distrobuilder build-lxd ubuntu.yml -o image.architecture=arm64 -o source.url=http://ports.ubuntu.com/ubuntu-ports [options]
+  ```
+
 ### References
 
 * LXD : https://linuxcontainers.org/lxd/introduction/
