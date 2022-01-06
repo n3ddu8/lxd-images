@@ -298,13 +298,13 @@ files:
     types:
     - vm
 
-  - path: /etc/netplan/90-config.yaml
+  - path: /etc/netplan/10-default.yaml
     source: config/netplan/container.yaml
     generator: copy
     types:
     - container
 
-  - path: /etc/netplan/90-config.yaml
+  - path: /etc/netplan/10-default.yaml
     source: config/netplan/vm.yaml
     generator: copy
     types:
