@@ -1,6 +1,9 @@
 [Match]
 Name=eth0
+
 [Network]
 DHCP=ipv4
+
 [DHCPv4]
 ClientIdentifier=mac
+UseDomains=true
