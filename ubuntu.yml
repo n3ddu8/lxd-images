@@ -1,7 +1,7 @@
 ---
 image:
   distribution: ubuntu
-  release: impish
+  release: focal
   architecture: amd64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
   description: "Ubuntu {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
@@ -34,14 +34,6 @@ packages:
     architectures:
       - amd64
       - i386
-  - name: sources.list
-    url: |-
-      deb http://ports.ubuntu.com/ubuntu-ports {{ image.release }} main restricted universe multiverse
-      deb http://ports.ubuntu.com/ubuntu-ports {{ image.release }}-updates main restricted universe multiverse
-      deb http://ports.ubuntu.com/ubuntu-ports {{ image.release }}-security main restricted universe multiverse
-    architectures:
-      - armhf
-      - arm64
   sets:
   - packages:
     - bash-completion

@@ -12,9 +12,8 @@ The following distribution images can be built :
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
 | Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
-| Ubuntu         | `impish` (21.10)  | `default`    | `amd64`      | ✅         | ✅               |
-| Ubuntu         | `impish` (21.10)  | `default`    | `arm64`      | ✅         | ❌               |
-| Ubuntu         | `impish` (21.10)  | `k8s`        | `amd64`      | ❌         | ✅               |
+| Ubuntu         | `focal` (20.04)   | `default`    | `amd64`      | ✅         | ✅               |
+| Ubuntu         | `focal` (20.04)   | `k8s`        | `amd64`      | ❌         | ✅               |
 
 #### Requirements
 
@@ -43,14 +42,6 @@ Then, build the image using `distrobuilder` (and import it directly) :
 
   ```shell
   distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
-  ```
-
-* **Build image for Raspberry Pi (ARM64)**
-
-  To build an image on Raspberry Pi, you need to specify the architecture and an alternative URL for source packages :
-
-  ```shell
-  distrobuilder build-lxd ubuntu.yml -o image.architecture=arm64 -o source.url=http://ports.ubuntu.com/ubuntu-ports [options]
   ```
 
 ### References
