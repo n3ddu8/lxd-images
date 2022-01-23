@@ -31,9 +31,6 @@ packages:
       deb http://archive.ubuntu.com/ubuntu {{ image.release }} main restricted universe multiverse
       deb http://archive.ubuntu.com/ubuntu {{ image.release }}-updates main restricted universe multiverse
       deb http://security.ubuntu.com/ubuntu {{ image.release }}-security main restricted universe multiverse
-    architectures:
-      - amd64
-      - i386
   sets:
   - packages:
     - bash-completion
@@ -80,6 +77,7 @@ packages:
   - packages:
     - iptables
     - ipvsadm
+    - lvm2
     - open-iscsi
     action: install
     types:
@@ -89,7 +87,6 @@ packages:
   
   - packages:
     - unattended-upgrades
-    - networkd-dispatcher
     - os-prober
     - packagekit
     action: remove
