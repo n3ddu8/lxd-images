@@ -87,6 +87,7 @@ packages:
   
   - packages:
     - unattended-upgrades
+    - networkd-dispatcher
     - os-prober
     - packagekit
     action: remove
