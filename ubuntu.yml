@@ -69,6 +69,7 @@ packages:
     - cloud-guest-utils
     - grub-efi-amd64-signed
     - linux-virtual
+    - lvm2
     - shim-signed
     action: install
     types:
@@ -77,7 +78,6 @@ packages:
   - packages:
     - iptables
     - ipvsadm
-    - lvm2
     - open-iscsi
     action: install
     types:
