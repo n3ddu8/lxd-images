@@ -67,6 +67,7 @@ packages:
     - grub2-efi-x64
     - kernel
     - kmod
+    - lvm2
     - shim
     action: install
     types:
