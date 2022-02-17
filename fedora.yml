@@ -98,7 +98,7 @@ actions:
       # systemd-resolved
       umount -l /etc/resolv.conf || true
       rm /etc/resolv.conf
-      ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+      ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
       # others
       cp -R /etc/skel/.bash* /root/
   
