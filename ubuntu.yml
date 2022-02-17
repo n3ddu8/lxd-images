@@ -102,18 +102,7 @@ actions:
     types:
     - vm
 
-  # Manage systemd-resolved stub
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      umount -l /etc/resolv.conf || true
-      rm /etc/resolv.conf
-      ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-    variants:
-    - default
-
-  # Disable use of stub resolver configuration since it's disabled for Kubernetes
+  # Manage systemd-resolved
   - trigger: post-packages
     action: |-
       #!/bin/sh
@@ -121,10 +110,6 @@ actions:
       umount -l /etc/resolv.conf || true
       rm /etc/resolv.conf
       ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-    types:
-    - vm
-    variants:
-    - k8s
 
   # Configure timezone
   - trigger: post-packages
@@ -303,19 +288,7 @@ files:
   - path: /etc/systemd/resolved.conf
     source: config/systemd-resolved/resolved.conf
     generator: copy
-    variants:
-    - default
 
-  # Disable systemd-resolved stub resolver since it can interfere with CoreDNS operations
-  # Link: https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/#known-issues
-  - path: /etc/systemd/resolved.conf
-    source: config/systemd-resolved/resolved-k8s.conf
-    generator: copy
-    types:
-    - vm
-    variants:
-    - k8s
-  
   - path: /etc/systemd/journald.conf
     source: config/systemd-journald/journald.conf
     generator: copy
