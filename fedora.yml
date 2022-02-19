@@ -40,6 +40,7 @@ packages:
     - man-db
     - man-pages
     - netcat
+    - nftables
     - openssh-clients
     - openssh-server
     - passwd
