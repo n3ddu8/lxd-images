@@ -307,16 +307,6 @@ files:
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/default.cfg
     generator: copy
-    types:
-    - container
-
-  - path: /etc/cloud/cloud.cfg
-    source: config/cloud-init/default-vm.cfg
-    generator: copy
-    types:
-    - vm
-    variants:
-    - default
 
   - path: /etc/tmux.conf
     source: config/tmux/tmux.conf
