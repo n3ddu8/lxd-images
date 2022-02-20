@@ -74,6 +74,12 @@ packages:
     types:
     - vm
 
+  - packages:
+    - linux-firmware
+    action: remove
+    types:
+    - vm
+
 actions:
   # Remove 'nodocs' flags to ensure packages are installed with their manpages
   - trigger: post-unpack
