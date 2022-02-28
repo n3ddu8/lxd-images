@@ -50,7 +50,6 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
   ```shell
   mkdir -p /var/cache/distrobuilder/build
-
   mount -t tmpfs -o rw,size=4G,uid=0,gid=0,mode=1755 tmpfs /var/cache/distrobuilder/build
   ```
 
