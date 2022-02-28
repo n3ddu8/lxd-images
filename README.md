@@ -28,7 +28,7 @@ Firstly, install `distrobuilder` using `snap` :
 snap install distrobuilder --classic [--edge]
 ```
 
-Then, build the image using `distrobuilder` (and import it directly) :
+Then, build the image using `distrobuilder`, you have multiple options :
 
 * **Container image**
 
@@ -42,6 +42,22 @@ Then, build the image using `distrobuilder` (and import it directly) :
 
   ```shell
   distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
+  ```
+
+* **Use a tmpfs for build cache**
+
+  It can be interesting to use a tmpfs to speed up the build and preserve SSDs if a lot of image builds are planned :
+
+  ```shell
+  mkdir -p /var/cache/distrobuilder/build
+
+  mount -t tmpfs -o rw,size=4G,uid=0,gid=0,mode=1755 tmpfs /var/cache/distrobuilder/build
+  ```
+
+  Build the image by specifying the tmpfs cache directory :
+
+  ```shell
+  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --cache-dir=/var/cache/distrobuilder/build
   ```
 
 ### References
