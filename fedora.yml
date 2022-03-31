@@ -15,7 +15,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 34359738368 # 32 GiB
+      size: 21474836480 # 20 GiB
 
 packages:
   manager: dnf
@@ -39,7 +39,7 @@ packages:
     - lsof
     - man-db
     - man-pages
-    - netcat
+    - nmap-ncat
     - nftables
     - openssh-clients
     - openssh-server
@@ -140,7 +140,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
+      sed -i 's/[ ]*(Container Image.*)//;/^VARIANT/d' /etc/os-release
   
   - trigger: post-files
     action: |-
@@ -152,10 +152,10 @@ actions:
       sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
       # Addtionnal fixes
       sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
-      sed -ri 's|\(Container Image\)||g' /boot/loader/entries/*
+      sed -ri 's|\(Container Image.*\)||g' /boot/loader/entries/*
       
       # Temporary fix to GRUB entries to ensure VM boots (https://discuss.linuxcontainers.org/t/fedora-vm-fails-to-boot)
-      sed -ri 's|/var/cache/distrobuilder.*/rootfs||g' /boot/loader/entries/*
+      sed -ri 's|/rootfs||g' /boot/loader/entries/*
       
       # Generate initramfs
       kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
@@ -233,8 +233,14 @@ files:
     types:
     - vm
  
-  - path: /etc/udev/rules.d/90-tuning.rules
-    source: config/udev/90-tuning.rules
+  - path: /etc/udev/rules.d/90-iosched.rules
+    source: config/udev/90-iosched.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/udev/rules.d/90-readahead.rules
+    source: config/udev/90-readahead.rules
     generator: copy
     types:
     - vm
