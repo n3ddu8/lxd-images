@@ -8,12 +8,13 @@ Manifests to build custom LXD system container and virtual machine images using 
 
 The following distribution images can be built :
 
-| Distribution   | Default release   | Variant      | Architecture | Container  | Virtual machine  |
+| Distribution   | Release           | Variant      | Architecture | Container  | Virtual machine  |
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
-| Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
+| Fedora         | `35` (default)    | `default`    | `x86_64`     | ✅         | ✅               |
+| Fedora         | `36`              | `default`    | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
-| Ubuntu         | `focal` (20.04)   | `default`    | `amd64`      | ✅         | ✅               |
-| Ubuntu         | `focal` (20.04)   | `k8s`        | `amd64`      | ❌         | ✅               |
+| Ubuntu         | `focal` (default) | `default`    | `amd64`      | ✅         | ✅               |
+| Ubuntu         | `jammy`           | `default`    | `amd64`      | ✅         | ✅               |
 
 #### Requirements
 
@@ -42,6 +43,14 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
   ```shell
   distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
+  ```
+
+* **Choose distribution release version**
+
+  ```shell
+  distrobuilder build-lxd ubuntu.yml -o image.release=jammy [options]
+
+  distrobuilder build-lxd fedora.yml -o image.release=36 [options]
   ```
 
 * **Use a tmpfs for build cache**
