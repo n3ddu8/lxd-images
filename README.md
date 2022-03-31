@@ -6,10 +6,13 @@ Manifests to build custom LXD system container and virtual machine images using 
 
 #### Images
 
-The following distribution images can be built :
+The following distribution images can be built using the manifests :
 
 | Distribution   | Release           | Variant      | Architecture | Container  | Virtual machine  |
 | :--------------| :-----------------| :------------| :------------| :--------- | :--------------- |
+| Centos Stream  | `8` (default)     | `default`    | `x86_64`     | ✅         | ✅               |
+| Centos Stream  | `9`               | `default`    | `x86_64`     | ✅         | ✅               |
+|                |                   |              |              |            |                  |
 | Fedora         | `35` (default)    | `default`    | `x86_64`     | ✅         | ✅               |
 | Fedora         | `36`              | `default`    | `x86_64`     | ✅         | ✅               |
 |                |                   |              |              |            |                  |
@@ -45,12 +48,17 @@ Then, build the image using `distrobuilder`, you have multiple options :
   distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
   ```
 
-* **Choose distribution release version**
+* **Choose a distribution release version**
 
   ```shell
+  # Ubuntu
   distrobuilder build-lxd ubuntu.yml -o image.release=jammy [options]
 
+  # Fedora
   distrobuilder build-lxd fedora.yml -o image.release=36 [options]
+
+  # You need to also change the image source for CentOS Stream 9
+  distrobuilder build-lxd centos.yml -o image.release=9-Stream -o source.url=https://fr2.rpmfind.net/linux/centos-stream [options]
   ```
 
 * **Use a tmpfs for build cache**
