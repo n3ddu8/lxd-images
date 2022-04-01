@@ -8,16 +8,16 @@ Manifests to build custom LXD system container and virtual machine images using 
 
 The following distribution images can be built using the manifests :
 
-| Distribution   | Release           | Variant      | Architecture | Container  | Virtual machine  |
-| :--------------| :-----------------| :------------| :------------| :----------| :----------------|
-| Centos Stream  | `8` (default)     | `default`    | `x86_64`     | ✅         | ✅               |
-| Centos Stream  | `9`               | `default`    | `x86_64`     | ✅         | ✅               |
-|                |                   |              |              |            |                  |
-| Fedora         | `36` (default)    | `default`    | `x86_64`     | ✅         | ✅               |
-| Fedora         | `35`              | `default`    | `x86_64`     | ✅         | ✅               |
-|                |                   |              |              |            |                  |
-| Ubuntu         | `jammy` (default) | `default`    | `amd64`      | ✅         | ✅               |
-| Ubuntu         | `focal`           | `default`    | `amd64`      | ✅         | ✅               |
+| Distribution   | Release           | Architecture | Container | Virtual machine |
+| :--------------| :-----------------| :------------| :---------| :---------------|
+| Centos Stream  | `8` (default)     | `x86_64`     | ✅        | ✅              |
+| Centos Stream  | `9`               | `x86_64`     | ✅        | ✅              |
+|                |                   |              |           |                 |
+| Fedora         | `36` (default)    | `x86_64`     | ✅        | ✅              |
+| Fedora         | `35`              | `x86_64`     | ✅        | ✅              |
+|                |                   |              |           |                 |
+| Ubuntu         | `jammy` (default) | `amd64`      | ✅        | ✅              |
+| Ubuntu         | `focal`           | `amd64`      | ✅        | ✅              |
 
 #### Requirements
 
