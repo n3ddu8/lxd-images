@@ -1,7 +1,7 @@
 ---
 image:
   distribution: ubuntu
-  release: focal
+  release: jammy
   architecture: amd64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
   description: "Ubuntu {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
