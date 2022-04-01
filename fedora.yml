@@ -1,7 +1,7 @@
 ---
 image:
   distribution: fedora
-  release: 35
+  release: 36
   architecture: x86_64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
   description: "Fedora {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
