@@ -71,7 +71,9 @@ packages:
 
   - packages:
     - linux-firmware
+    - mdadm
     - polkit
+    - udisks2
     action: remove
     types:
     - vm
