@@ -49,6 +49,7 @@ packages:
     - rsync
     - socat
     - strace
+    - sudo
     - tar
     - tcpdump
     - tmux
