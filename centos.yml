@@ -31,6 +31,7 @@ packages:
     - epel-next-release
     - glibc-langpack-en
     - glibc-locale-source
+    - hostname
     - iproute
     - iproute-tc
     - iputils
