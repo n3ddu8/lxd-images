@@ -123,7 +123,13 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-networkd systemd-resolved sshd cloud-init
+      systemctl enable systemd-networkd \
+                          systemd-resolved \
+                          sshd \
+                          cloud-init \
+                          cloud-init-local \
+                          cloud-config \
+                          cloud-final
       systemctl disable systemd-homed
       systemctl mask systemd-oomd
   
@@ -284,7 +290,7 @@ files:
     generator: copy
 
   - path: /etc/cloud/cloud.cfg
-    source: config/cloud-init/default.cfg
+    source: config/cloud-init/fedora.cfg
     generator: copy
 
   - path: /etc/tmux.conf
