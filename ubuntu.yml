@@ -291,7 +291,7 @@ files:
     generator: copy
   
   - path: /etc/cloud/cloud.cfg
-    source: config/cloud-init/default.cfg
+    source: config/cloud-init/ubuntu.cfg
     generator: copy
 
   - path: /etc/tmux.conf
