@@ -130,7 +130,12 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable NetworkManager sshd cloud-init
+      systemctl enable NetworkManager \
+                          sshd \
+                          cloud-init \
+                          cloud-init-local \
+                          cloud-config \
+                          cloud-final
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -316,7 +321,7 @@ files:
     generator: copy
 
   - path: /etc/cloud/cloud.cfg
-    source: config/cloud-init/default.cfg
+    source: config/cloud-init/rhel.cfg
     generator: copy
 
   - path: /etc/tmux.conf
