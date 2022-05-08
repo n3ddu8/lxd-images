@@ -67,6 +67,7 @@ packages:
     - kernel
     - lvm2
     - shim
+    - tuned
     action: install
     types:
     - vm
@@ -74,7 +75,6 @@ packages:
   - packages:
     - linux-firmware
     - mdadm
-    - polkit
     - udisks2
     action: remove
     types:
@@ -142,7 +142,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable chronyd
+      systemctl enable chronyd tuned
     types:
     - vm
 
@@ -277,20 +277,8 @@ files:
     releases:
     - 8-Stream
 
-  - path: /etc/sysctl.d/90-tuning.conf
-    source: config/sysctl/90-tuning.conf
-    generator: copy
-    types:
-    - vm
- 
   - path: /etc/udev/rules.d/90-iosched.rules
     source: config/udev/90-iosched.rules
-    generator: copy
-    types:
-    - vm
-
-  - path: /etc/udev/rules.d/90-readahead.rules
-    source: config/udev/90-readahead.rules
     generator: copy
     types:
     - vm
@@ -303,6 +291,8 @@ files:
     releases:
     - 8-Stream
     - 9-Stream
+    types:
+    - container
 
   - path: /etc/systemd/journald.conf
     source: config/systemd-journald/journald.conf
