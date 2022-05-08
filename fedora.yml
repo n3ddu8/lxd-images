@@ -71,6 +71,7 @@ packages:
     - kmod
     - lvm2
     - shim
+    - tuned
     action: install
     types:
     - vm
@@ -138,7 +139,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd
+      systemctl enable systemd-timesyncd tuned
     types:
     - vm
 
@@ -234,20 +235,8 @@ files:
     types:
     - vm
 
-  - path: /etc/sysctl.d/90-tuning.conf
-    source: config/sysctl/90-tuning.conf
-    generator: copy
-    types:
-    - vm
- 
   - path: /etc/udev/rules.d/90-iosched.rules
     source: config/udev/90-iosched.rules
-    generator: copy
-    types:
-    - vm
-
-  - path: /etc/udev/rules.d/90-readahead.rules
-    source: config/udev/90-readahead.rules
     generator: copy
     types:
     - vm
