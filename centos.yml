@@ -283,17 +283,6 @@ files:
     types:
     - vm
 
-  - name: 86-nm-unmanaged.rules
-    path: /etc/udev/rules.d/86-nm-unmanaged.rules
-    generator: dump
-    content: |-
-      ENV{ID_NET_DRIVER}=="veth", ENV{NM_UNMANAGED}="0"
-    releases:
-    - 8-Stream
-    - 9-Stream
-    types:
-    - container
-
   - path: /etc/systemd/journald.conf
     source: config/systemd-journald/journald.conf
     generator: copy
