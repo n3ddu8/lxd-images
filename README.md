@@ -14,7 +14,6 @@ The following distribution images can be built using the manifests :
 | Centos Stream  | `9`               | `x86_64`     | ✅        | ✅              |
 |                |                   |              |           |                 |
 | Fedora         | `36` (default)    | `x86_64`     | ✅        | ✅              |
-| Fedora         | `35`              | `x86_64`     | ✅        | ✅              |
 |                |                   |              |           |                 |
 | Ubuntu         | `jammy` (default) | `amd64`      | ✅        | ✅              |
 | Ubuntu         | `focal`           | `amd64`      | ✅        | ✅              |
