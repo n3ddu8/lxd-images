@@ -10,10 +10,10 @@ The following distribution images can be built using the manifests :
 
 | Distribution   | Release           | Architecture | Container | Virtual machine |
 | :--------------| :-----------------| :------------| :---------| :---------------|
-| Centos Stream  | `8` (default)     | `x86_64`     | ✅        | ✅              |
-| Centos Stream  | `9`               | `x86_64`     | ✅        | ✅              |
-|                |                   |              |           |                 |
 | Fedora         | `36` (default)    | `x86_64`     | ✅        | ✅              |
+|                |                   |              |           |                 |
+| Rocky Linux    | `8` (default)     | `x86_64`     | ✅        | ✅              |
+| Rocky Linux    | `9` *soon*          | `x86_64`     | ✅        | ✅              |
 |                |                   |              |           |                 |
 | Ubuntu         | `jammy` (default) | `amd64`      | ✅        | ✅              |
 | Ubuntu         | `focal`           | `amd64`      | ✅        | ✅              |
