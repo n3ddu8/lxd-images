@@ -4,7 +4,7 @@ image:
   release: 8
   architecture: x86_64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
-  description: "CentOS {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
+  description: "Rocky Linux {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
   variant: default
 
 source:
