@@ -235,8 +235,14 @@ files:
     types:
     - vm
 
-  - path: /etc/udev/rules.d/90-iosched.rules
-    source: config/udev/90-iosched.rules
+  - path: /etc/sysctl.d/10-silence-audit.conf
+    source: config/sysctl/10-silence-audit.conf
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/udev/rules.d/80-iosched.rules
+    source: config/udev/80-iosched.rules
     generator: copy
     types:
     - vm
