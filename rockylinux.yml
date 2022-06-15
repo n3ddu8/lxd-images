@@ -273,8 +273,8 @@ files:
     releases:
     - 8
 
-  - path: /etc/udev/rules.d/90-iosched.rules
-    source: config/udev/90-iosched.rules
+  - path: /etc/udev/rules.d/80-iosched.rules
+    source: config/udev/80-iosched.rules
     generator: copy
     types:
     - vm
