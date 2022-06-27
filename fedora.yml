@@ -25,35 +25,19 @@ packages:
   - packages:
     - acl
     - bash-completion
-    - cloud-init
     - diffutils
-    - dnf-plugins-core
     - file
     - findutils
     - gzip
     - iproute
-    - iproute-tc
     - iputils
-    - jq
     - kbd
     - less
-    - lsof
-    - man-db
-    - man-pages
-    - nmap-ncat
-    - nftables
-    - openssh-clients
-    - openssh-server
     - passwd
     - procps-ng
-    - rsync
     - systemd-networkd
     - systemd-udev
-    - socat
-    - strace
     - tar
-    - tcpdump
-    - tmux
     - tree
     - util-linux
     - unzip
@@ -64,17 +48,45 @@ packages:
     action: install
 
   - packages:
-    - cloud-utils-growpart
+    - cloud-init
+    - dnf-plugins-core
+    - jq
+    - less
+    - lsof
+    - man-db
+    - man-pages
+    - nmap-ncat
+    - nftables
+    - openssh-clients
+    - openssh-server
+    - rsync
+    - systemd-networkd
+    - systemd-udev
+    - socat
+    - strace
+    - tcpdump
+    - tmux
+    action: install
+    variants:
+    - default
+
+  - packages:
     - dracut
     - grub2-efi-x64
     - kernel
     - kmod
-    - lvm2
     - shim
-    - tuned
     action: install
     types:
     - vm
+
+  - packages:
+    - cloud-utils-growpart
+    action: install
+    types:
+    - vm
+    variants:
+    - default
 
   - packages:
     - linux-firmware
@@ -110,7 +122,7 @@ actions:
       ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
       # others
       cp -R /etc/skel/.bash* /root/
-  
+
   # Configure timezone
   - trigger: post-packages
     action: |-
@@ -118,28 +130,31 @@ actions:
       set -eux
       ln -sfn /usr/share/zoneinfo/Europe/Paris /etc/localtime
       echo "Europe/Paris" > /etc/timezone
-  
+
   # Default systemd units to enable
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-networkd \
-                          systemd-resolved \
-                          sshd \
-                          cloud-init \
-                          cloud-init-local \
-                          cloud-config \
-                          cloud-final
+      systemctl enable systemd-networkd systemd-resolved
       systemctl disable systemd-homed
       systemctl mask systemd-oomd
-  
+
+  # Extra systemd units to enable for 'default' variant
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      systemctl enable sshd cloud-init cloud-init-local cloud-config cloud-final
+    variants:
+    - default
+
   # Additionnal units to manage for VMs
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd tuned
+      systemctl enable systemd-timesyncd
     types:
     - vm
 
@@ -206,12 +221,18 @@ files:
 
   - name: meta-data
     generator: cloud-init
+    variants:
+    - default
 
   - name: user-data
     generator: cloud-init
+    variants:
+    - default
 
   - name: vendor-data
     generator: cloud-init
+    variants:
+    - default
 
   - path: /etc/default/grub
     generator: dump
@@ -284,11 +305,17 @@ files:
   - path: /etc/ssh/sshd_config
     source: config/ssh/sshd_config
     generator: copy
+    variants:
+    - default
 
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/fedora.cfg
     generator: copy
+    variants:
+    - default
 
   - path: /etc/tmux.conf
     source: config/tmux/tmux.conf
     generator: copy
+    variants:
+    - default
