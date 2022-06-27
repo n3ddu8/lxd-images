@@ -163,6 +163,7 @@ actions:
       sed -ri 's|\(Container Image.*\)||g' /boot/loader/entries/*
       
       # Temporary fix to GRUB entries to ensure VM boots (https://discuss.linuxcontainers.org/t/fedora-vm-fails-to-boot)
+      sed -ri 's|/var/cache/distrobuilder.*/boot|/boot|g' /boot/loader/entries/*
       sed -ri 's|/rootfs||g' /boot/loader/entries/*
       
       # Generate initramfs
