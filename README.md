@@ -9,6 +9,7 @@ This repository contains manifests to build custom LXD system container and virt
   | Distribution   | Release   | Variant    | Architecture | Container | Virtual machine |
   | :--------------| :---------| :----------| :------------| :---------| :---------------|
   | Fedora         | `36`      | `default`  | `x86_64`     | ✅        | ✅              |
+  | Fedora         | `36`      | `minimal`  | `x86_64`     | ✅        | ✅              |
   |                |           |            |              |           |                 |
   | Rocky Linux    | `8`       | `default`  | `x86_64`     | ✅        | ✅              |
   |                |           |            |              |           |                 |
