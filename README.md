@@ -1,12 +1,10 @@
 <p><img src="https://discuss.linuxcontainers.org/uploads/default/original/1X/9a2865f528f7b846cda54335dec298dda6109bb3.png" alt="lxd-logo" title="lxd" align="top" height=105 /></p>
 
-Manifests to build custom LXD system container and virtual machine images using Distrobuilder.
-
 ### General informations
 
-#### Images
+This repository contains manifests to build custom LXD system container and virtual machine images using Distrobuilder.
 
-* **Distributions matrix**
+**Images**
 
   | Distribution   | Release   | Variant    | Architecture | Container | Virtual machine |
   | :--------------| :---------| :----------| :------------| :---------| :---------------|
@@ -18,7 +16,7 @@ Manifests to build custom LXD system container and virtual machine images using 
   | Ubuntu         | `jammy`   | `minimal`  | `amd64`      | ✅        | ✅              |
   | Ubuntu         | `focal`   | `default`  | `amd64`      | ✅        | ✅              |
 
-* **Variants**
+**Variants**
 
   - ***default*** - standard userspace with cloud-init capabilities
   - ***minimal*** - minimal userspace without cloud-init, ssh server nor debugging utilities.
