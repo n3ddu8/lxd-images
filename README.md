@@ -6,17 +6,22 @@ Manifests to build custom LXD system container and virtual machine images using 
 
 #### Images
 
-The following distribution images can be built using the manifests :
+* **Distributions matrix**
 
-| Distribution   | Release           | Architecture | Container | Virtual machine |
-| :--------------| :-----------------| :------------| :---------| :---------------|
-| Fedora         | `36` (default)    | `x86_64`     | ✅        | ✅              |
-|                |                   |              |           |                 |
-| Rocky Linux    | `8` (default)     | `x86_64`     | ✅        | ✅              |
-| Rocky Linux    | `9` *soon*          | `x86_64`     | ✅        | ✅              |
-|                |                   |              |           |                 |
-| Ubuntu         | `jammy` (default) | `amd64`      | ✅        | ✅              |
-| Ubuntu         | `focal`           | `amd64`      | ✅        | ✅              |
+  | Distribution   | Release   | Variant    | Architecture | Container | Virtual machine |
+  | :--------------| :---------| :----------| :------------| :---------| :---------------|
+  | Fedora         | `36`      | `default`  | `x86_64`     | ✅        | ✅              |
+  |                |           |            |              |           |                 |
+  | Rocky Linux    | `8`       | `default`  | `x86_64`     | ✅        | ✅              |
+  |                |           |            |              |           |                 |
+  | Ubuntu         | `jammy`   | `default`  | `amd64`      | ✅        | ✅              |
+  | Ubuntu         | `jammy`   | `minimal`  | `amd64`      | ✅        | ✅              |
+  | Ubuntu         | `focal`   | `default`  | `amd64`      | ✅        | ✅              |
+
+* **Variants**
+
+  - ***default*** - standard userspace with cloud-init capabilities
+  - ***minimal*** - minimal userspace without cloud-init, ssh server nor debugging utilities.
 
 #### Requirements
 
@@ -55,9 +60,6 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
   # Fedora
   distrobuilder build-lxd fedora.yml -o image.release=36 [options]
-
-  # You need to also change the image source for CentOS Stream 9
-  distrobuilder build-lxd centos.yml -o image.release=9-Stream -o source.url=https://fr2.rpmfind.net/linux/centos-stream [options]
   ```
 
 * **Use a tmpfs for build cache**
