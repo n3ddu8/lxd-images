@@ -34,18 +34,33 @@ packages:
   sets:
   - packages:
     - bash-completion
-    - cloud-init
     - curl
     - diffutils
     - iputils-ping
-    - jq
     - less
     - language-pack-en
-    - lsof
+    - netplan.io
+    - systemd
+    - systemd-sysv
+    - tree
+    - uidmap
+    - udev
+    - unzip
+    - wget
+    action: install
+
+  - packages:
+    - vim-tiny
+    action: install
+    variants:
+    - minimal
+
+  - packages:
+    - cloud-init
+    - jq
     - man-db
     - manpages
     - netcat-openbsd
-    - netplan.io
     - nftables
     - openssh-server
     - openssh-client
@@ -53,40 +68,46 @@ packages:
     - sudo
     - socat
     - strace
-    - systemd
     - tcpdump
     - tmux
-    - tree
-    - udev
-    - unzip
     - vim
-    - wget
     action: install
-
-  - packages:
-    - fuse
-    action: install
-    releases:
-    - focal
+    variants:
+    - default
 
   - packages:
     - fuse3
     action: install
+    variants:
+    - default
     releases:
     - jammy
 
   - packages:
+    - fuse
+    action: install
+    variants:
+    - default
+    releases:
+    - focal
+
+  - packages:
     - apparmor
     - apparmor-profiles
-    - cloud-guest-utils
     - grub-efi-amd64-signed
-    - linux-image-virtual
-    - lvm2
+    - linux-image-kvm
     - shim-signed
-    - tuned
     action: install
     types:
     - vm
+
+  - packages:
+    - cloud-guest-utils
+    action: install
+    types:
+    - vm
+    variants:
+    - default
 
   - packages:
     - unattended-upgrades
@@ -127,14 +148,23 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-networkd systemd-resolved ssh cloud-init
+      systemctl enable systemd-networkd systemd-resolved
+
+  # Extra systemd units to enable for 'default' variant
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      systemctl enable ssh cloud-init
+    variants:
+    - default
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd tuned
+      systemctl enable systemd-timesyncd
     types:
     - vm
 
@@ -202,12 +232,18 @@ files:
 
   - name: meta-data
     generator: cloud-init
+    variants:
+    - default
 
   - name: network-config
     generator: cloud-init
+    variants:
+    - default
 
   - name: user-data
     generator: cloud-init
+    variants:
+    - default
 
   - path: /etc/default/grub.d/50-lxd.cfg
     generator: dump
@@ -277,11 +313,17 @@ files:
   - path: /etc/ssh/sshd_config
     source: config/ssh/sshd_config
     generator: copy
+    variants:
+    - default
   
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/ubuntu.cfg
     generator: copy
+    variants:
+    - default
 
   - path: /etc/tmux.conf
     source: config/tmux/tmux.conf
     generator: copy
+    variants:
+    - default
