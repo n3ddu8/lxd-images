@@ -51,6 +51,13 @@ Then, build the image using `distrobuilder`, you have multiple options :
   distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
   ```
 
+* **Build a specific image variant**
+
+  ```shell
+  # Minimal variant
+  distrobuilder build-lxd ubuntu.yml -o image.variant=minimal --import-into-lxd=<image alias> [options]
+  ```
+
 * **Choose a distribution release version**
 
   ```shell
