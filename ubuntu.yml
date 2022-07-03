@@ -38,49 +38,38 @@ packages:
     - diffutils
     - iputils-ping
     - less
+    - lsof
     - language-pack-en
     - netplan.io
+    - netcat-openbsd
+    - strace
     - systemd
     - systemd-sysv
-    - tree
     - uidmap
     - udev
     - unzip
-    - wget
-    action: install
-
-  - packages:
     - vim-tiny
-    action: install
-    variants:
-    - minimal
-
-  - packages:
-    - cloud-init
-    - jq
-    - man-db
-    - manpages
-    - netcat-openbsd
-    - nftables
-    - lsof
-    - openssh-server
-    - openssh-client
-    - rsync
-    - sudo
-    - socat
-    - strace
-    - tcpdump
-    - tmux
-    - vim
+    - wget
     action: install
     variants:
     - default
+    - cloud
+
+  - packages:
+    - cloud-init
+    - openssh-server
+    - openssh-client
+    - sudo
+    action: install
+    variants:
+    - cloud
 
   - packages:
     - fuse3
     action: install
     variants:
     - default
+    - cloud
     releases:
     - jammy
 
@@ -89,6 +78,7 @@ packages:
     action: install
     variants:
     - default
+    - cloud
     releases:
     - focal
 
@@ -99,6 +89,9 @@ packages:
     - linux-image-kvm
     - shim-signed
     action: install
+    variants:
+    - default
+    - cloud
     types:
     - vm
 
@@ -108,7 +101,7 @@ packages:
     types:
     - vm
     variants:
-    - default
+    - cloud
 
   - packages:
     - unattended-upgrades
@@ -116,6 +109,9 @@ packages:
     - os-prober
     - packagekit
     action: remove
+    variants:
+    - default
+    - cloud
 
 actions:
   # Generate machine-id in order for the kernel stuff to be configured properly
@@ -151,14 +147,14 @@ actions:
       set -eux
       systemctl enable systemd-networkd systemd-resolved
 
-  # Extra systemd units to enable for 'default' variant
+  # Extra systemd units to enable for 'cloud' variant
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
       systemctl enable ssh cloud-init
     variants:
-    - default
+    - cloud
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -234,17 +230,17 @@ files:
   - name: meta-data
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - name: network-config
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - name: user-data
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - path: /etc/default/grub.d/50-lxd.cfg
     generator: dump
@@ -315,16 +311,10 @@ files:
     source: config/ssh/sshd_config
     generator: copy
     variants:
-    - default
+    - cloud
   
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/ubuntu.cfg
     generator: copy
     variants:
-    - default
-
-  - path: /etc/tmux.conf
-    source: config/tmux/tmux.conf
-    generator: copy
-    variants:
-    - default
+    - cloud

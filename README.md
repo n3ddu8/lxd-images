@@ -6,21 +6,18 @@ This repository contains manifests to build custom LXD system container and virt
 
 **Images**
 
-  | Distribution   | Release   | Variant    | Architecture | Container | Virtual machine |
-  | :--------------| :---------| :----------| :------------| :---------| :---------------|
-  | Fedora         | `36`      | `default`  | `x86_64`     | ✅        | ✅              |
-  | Fedora         | `36`      | `minimal`  | `x86_64`     | ✅        | ✅              |
-  |                |           |            |              |           |                 |
-  | Rocky Linux    | `8`       | `default`  | `x86_64`     | ✅        | ✅              |
-  |                |           |            |              |           |                 |
-  | Ubuntu         | `jammy`   | `default`  | `amd64`      | ✅        | ✅              |
-  | Ubuntu         | `jammy`   | `minimal`  | `amd64`      | ✅        | ✅              |
-  | Ubuntu         | `focal`   | `default`  | `amd64`      | ✅        | ✅              |
+  | Distribution   | Release   | Variants           | Container | Virtual machine |
+  | :--------------| :---------| :------------------| :---------| :---------------|
+  | Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
+  | Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
+  | Fedora         | `36`      | `default`, `cloud` | ✅        | ✅              |
+  | Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
+  | Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
 
 **Variants**
 
-  - ***default*** - standard userspace with cloud-init capabilities
-  - ***minimal*** - minimal userspace without cloud-init, ssh server nor debugging utilities.
+  - ***default*** - standard userspace
+  - ***cloud*** - standard userspace with an SSH server embedded and cloud-init capabilities
 
 #### Requirements
 
@@ -66,6 +63,9 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
   # Fedora
   distrobuilder build-lxd fedora.yml -o image.release=36 [options]
+
+  # Alma Linux
+  distrobuilder build-lxd almalinux.yml -o image.release=9 [options]
   ```
 
 * **Use a tmpfs for build cache**

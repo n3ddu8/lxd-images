@@ -1,15 +1,15 @@
 ---
 image:
-  distribution: rockylinux
+  distribution: almalinux
   release: 8
   architecture: x86_64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
-  description: "Rocky Linux {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
+  description: "AlmaLinux {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
   variant: default
 
 source:
-  downloader: rockylinux-http
-  url: https://download.rockylinux.org/pub/rocky
+  downloader: almalinux-http
+  url: https://repo.almalinux.org/almalinux/
   variant: boot
 
 targets:
@@ -25,49 +25,55 @@ packages:
   sets:
   - packages:
     - bash-completion
-    - cloud-init
     - dnf-plugins-core
     - epel-release
     - glibc-langpack-en
     - glibc-locale-source
     - hostname
     - iproute
-    - iproute-tc
     - iputils
-    - jq
     - less
     - lsof
-    - man-db
-    - man-pages
     - NetworkManager
     - nmap-ncat
-    - nftables
-    - openssh-clients
-    - openssh-server
     - passwd
     - rootfiles
-    - rsync
-    - socat
     - strace
-    - sudo
     - tar
-    - tcpdump
-    - tmux
-    - tree
     - unzip
     - vim-minimal
     - wget
     action: install
+    variants:
+    - default
+    - cloud
+
+  - packages:
+    - cloud-init
+    - openssh-clients
+    - openssh-server
+    - sudo
+    action: install
+    variants:
+    - cloud
 
   - packages:
     - chrony
-    - cloud-utils-growpart
     - grub2-efi-x64
     - kernel
-    - lvm2
     - shim
-    - tuned
     action: install
+    variants:
+    - default
+    - cloud
+    types:
+    - vm
+  
+  - packages:
+    - cloud-utils-growpart
+    action: install
+    variants:
+    - cloud
     types:
     - vm
 
@@ -76,6 +82,9 @@ packages:
     - mdadm
     - udisks2
     action: remove
+    variants:
+    - default
+    - cloud
     types:
     - vm
 
@@ -129,23 +138,26 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable NetworkManager \
-                          sshd \
-                          cloud-init \
-                          cloud-init-local \
-                          cloud-config \
-                          cloud-final
+      systemctl enable NetworkManager
+
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      systemctl enable sshd cloud-init cloud-init-local cloud-config cloud-final
+    variants:
+    - cloud
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable chronyd tuned
+      systemctl enable chronyd
     types:
     - vm
 
-  # Fix symlink for Python on CentOS Stream 8
+  # Fix symlink for Python on EL 8
   - trigger: post-packages
     action: |-
       #!/bin/sh
@@ -219,12 +231,18 @@ files:
 
   - name: meta-data
     generator: cloud-init
+    variants:
+    - cloud
 
   - name: user-data
     generator: cloud-init
+    variants:
+    - cloud
 
   - name: vendor-data
     generator: cloud-init
+    variants:
+    - cloud
 
   - name: network-config
     generator: cloud-init
@@ -238,6 +256,8 @@ files:
               control: auto
             - type: dhcp6
               control: auto{% else %}{{ config_get("user.network-config", "") }}{% endif %}
+    variants:
+    - cloud
 
   - path: /etc/default/grub
     generator: dump
@@ -294,11 +314,12 @@ files:
   - path: /etc/ssh/sshd_config
     source: config/ssh/sshd_config
     generator: copy
+    variants:
+    - cloud
 
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/rhel.cfg
     generator: copy
+    variants:
+    - cloud
 
-  - path: /etc/tmux.conf
-    source: config/tmux/tmux.conf
-    generator: copy
