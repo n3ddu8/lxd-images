@@ -189,7 +189,7 @@ actions:
       set -eux
       # Generate GRUB config
       sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
-      target=/boot/efi/EFI/centos/grub.cfg
+      target=/boot/efi/EFI/almalinux/grub.cfg
       grub2-mkconfig -o "${target}"
       sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
       sed -ri 's|/rootfs||g' /boot/loader/entries/*
@@ -292,6 +292,14 @@ files:
     - vm
     releases:
     - 8
+
+  - name: 86-nm-unmanaged.rules
+    path: /etc/udev/rules.d/86-nm-unmanaged.rules
+    generator: dump
+    content: |-
+      ENV{ID_NET_DRIVER}=="veth", ENV{NM_UNMANAGED}="0"
+    types:
+    - container
 
   - path: /etc/udev/rules.d/80-iosched.rules
     source: config/udev/80-iosched.rules
