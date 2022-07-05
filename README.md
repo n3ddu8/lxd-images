@@ -6,23 +6,23 @@ This repository contains manifests to build custom LXD system container and virt
 
 **Images**
 
-  | Distribution   | Release   | Variants           | Container | Virtual machine |
-  | :--------------| :---------| :------------------| :---------| :---------------|
-  | Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
-  | Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
-  | Fedora         | `36`      | `default`, `cloud` | ✅        | ✅              |
-  | Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
-  | Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
+| Distribution   | Release   | Variants           | Container | Virtual machine |
+| :--------------| :---------| :------------------| :---------| :---------------|
+| Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
+| Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
+| Fedora         | `36`      | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
 
 **Variants**
 
-  - ***default*** - standard userspace
-  - ***cloud*** - standard userspace with an SSH server embedded and cloud-init capabilities
+* ***default*** - standard userspace
+* ***cloud*** - standard userspace with an SSH server embedded and cloud-init capabilities
 
 #### Requirements
 
-- LXD >= 4.0 (for virtual machines support)
-- Distrobuilder >= 2.0
+* LXD >= 4.0 (for virtual machines support)
+* Distrobuilder >= 2.0
 
 ### How to build these images ?
 
