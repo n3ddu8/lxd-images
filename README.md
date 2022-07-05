@@ -1,5 +1,7 @@
 <p><img src="https://discuss.linuxcontainers.org/uploads/default/original/1X/9a2865f528f7b846cda54335dec298dda6109bb3.png" alt="lxd-logo" title="lxd" align="top" height=85 /></p>
 
+*LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines*
+
 ### General informations
 
 This repository contains manifests to build custom LXD system container and virtual machine images using Distrobuilder.
