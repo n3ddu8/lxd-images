@@ -51,7 +51,6 @@ Then, build the image using `distrobuilder`, you have multiple options :
 * **Build a specific image variant**
 
   ```shell
-  # Minimal variant
   distrobuilder build-lxd ubuntu.yml -o image.variant=cloud [options]
   ```
 
