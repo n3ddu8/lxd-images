@@ -37,7 +37,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
 * **Container image**
 
   ```shell
-  distrobuilder build-lxd fedora.yml --import-into-lxd=<image alias> [options]
+  distrobuilder build-lxd fedora.yml [options]
   ```
 
 * **Virtual machine image**
@@ -45,14 +45,14 @@ Then, build the image using `distrobuilder`, you have multiple options :
   You need to add a `--vm` flag in order to build a virtual machine image :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
+  distrobuilder build-lxd ubuntu.yml --vm [options]
   ```
 
 * **Build a specific image variant**
 
   ```shell
   # Minimal variant
-  distrobuilder build-lxd ubuntu.yml -o image.variant=minimal --import-into-lxd=<image alias> [options]
+  distrobuilder build-lxd ubuntu.yml -o image.variant=cloud [options]
   ```
 
 * **Choose a distribution release version**
