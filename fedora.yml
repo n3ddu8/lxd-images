@@ -25,7 +25,9 @@ packages:
   - packages:
     - acl
     - bash-completion
+    - curl
     - diffutils
+    - dnf-plugins-core
     - file
     - findutils
     - gzip
@@ -33,12 +35,14 @@ packages:
     - iputils
     - kbd
     - less
+    - lsof
+    - nmap-ncat
     - passwd
     - procps-ng
+    - strace
     - systemd-networkd
     - systemd-udev
     - tar
-    - tree
     - util-linux
     - unzip
     - vim-minimal
@@ -46,29 +50,18 @@ packages:
     - which
     - xz
     action: install
+    variants:
+    - default
+    - cloud
 
   - packages:
     - cloud-init
-    - dnf-plugins-core
-    - jq
-    - less
-    - lsof
-    - man-db
-    - man-pages
-    - nmap-ncat
-    - nftables
     - openssh-clients
     - openssh-server
-    - rsync
-    - systemd-networkd
-    - systemd-udev
-    - socat
-    - strace
-    - tcpdump
-    - tmux
+    - sudo
     action: install
     variants:
-    - default
+    - cloud
 
   - packages:
     - dracut
@@ -77,6 +70,9 @@ packages:
     - kmod
     - shim
     action: install
+    variants:
+    - default
+    - cloud
     types:
     - vm
 
@@ -86,11 +82,14 @@ packages:
     types:
     - vm
     variants:
-    - default
+    - cloud
 
   - packages:
     - linux-firmware
     action: remove
+    variants:
+    - default
+    - cloud
     types:
     - vm
 
@@ -140,14 +139,14 @@ actions:
       systemctl disable systemd-homed
       systemctl mask systemd-oomd
 
-  # Extra systemd units to enable for 'default' variant
+  # Extra systemd units to enable for 'cloud' variant
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
       systemctl enable sshd cloud-init cloud-init-local cloud-config cloud-final
     variants:
-    - default
+    - cloud
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -222,17 +221,17 @@ files:
   - name: meta-data
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - name: user-data
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - name: vendor-data
     generator: cloud-init
     variants:
-    - default
+    - cloud
 
   - path: /etc/default/grub
     generator: dump
@@ -306,16 +305,10 @@ files:
     source: config/ssh/sshd_config
     generator: copy
     variants:
-    - default
+    - cloud
 
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/fedora.cfg
     generator: copy
     variants:
-    - default
-
-  - path: /etc/tmux.conf
-    source: config/tmux/tmux.conf
-    generator: copy
-    variants:
-    - default
+    - cloud

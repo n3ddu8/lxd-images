@@ -1,4 +1,6 @@
-<p><img src="https://discuss.linuxcontainers.org/uploads/default/original/1X/9a2865f528f7b846cda54335dec298dda6109bb3.png" alt="lxd-logo" title="lxd" align="top" height=105 /></p>
+<p><img src="https://discuss.linuxcontainers.org/uploads/default/original/1X/9a2865f528f7b846cda54335dec298dda6109bb3.png" alt="lxd-logo" title="lxd" align="top" height=85 /></p>
+
+*LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines*
 
 ### General informations
 
@@ -6,26 +8,23 @@ This repository contains manifests to build custom LXD system container and virt
 
 **Images**
 
-  | Distribution   | Release   | Variant    | Architecture | Container | Virtual machine |
-  | :--------------| :---------| :----------| :------------| :---------| :---------------|
-  | Fedora         | `36`      | `default`  | `x86_64`     | ✅        | ✅              |
-  | Fedora         | `36`      | `minimal`  | `x86_64`     | ✅        | ✅              |
-  |                |           |            |              |           |                 |
-  | Rocky Linux    | `8`       | `default`  | `x86_64`     | ✅        | ✅              |
-  |                |           |            |              |           |                 |
-  | Ubuntu         | `jammy`   | `default`  | `amd64`      | ✅        | ✅              |
-  | Ubuntu         | `jammy`   | `minimal`  | `amd64`      | ✅        | ✅              |
-  | Ubuntu         | `focal`   | `default`  | `amd64`      | ✅        | ✅              |
+| Distribution   | Release   | Variants           | Container | Virtual machine |
+| :--------------| :---------| :------------------| :---------| :---------------|
+| Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
+| Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
+| Fedora         | `36`      | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
 
 **Variants**
 
-  - ***default*** - standard userspace with cloud-init capabilities
-  - ***minimal*** - minimal userspace without cloud-init, ssh server nor debugging utilities.
+* ***default*** - standard userspace
+* ***cloud*** - standard userspace with an SSH server embedded and cloud-init capabilities
 
 #### Requirements
 
-- LXD >= 4.0 (for virtual machines support)
-- Distrobuilder >= 2.0
+* LXD >= 4.0 (for virtual machines support)
+* Distrobuilder >= 2.0
 
 ### How to build these images ?
 
@@ -40,7 +39,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
 * **Container image**
 
   ```shell
-  distrobuilder build-lxd fedora.yml --import-into-lxd=<image alias> [options]
+  distrobuilder build-lxd fedora.yml [options]
   ```
 
 * **Virtual machine image**
@@ -48,14 +47,13 @@ Then, build the image using `distrobuilder`, you have multiple options :
   You need to add a `--vm` flag in order to build a virtual machine image :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --vm [options]
+  distrobuilder build-lxd ubuntu.yml --vm [options]
   ```
 
 * **Build a specific image variant**
 
   ```shell
-  # Minimal variant
-  distrobuilder build-lxd ubuntu.yml -o image.variant=minimal --import-into-lxd=<image alias> [options]
+  distrobuilder build-lxd ubuntu.yml -o image.variant=cloud [options]
   ```
 
 * **Choose a distribution release version**
@@ -66,6 +64,9 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
   # Fedora
   distrobuilder build-lxd fedora.yml -o image.release=36 [options]
+
+  # Alma Linux
+  distrobuilder build-lxd almalinux.yml -o image.release=9 [options]
   ```
 
 * **Use a tmpfs for build cache**
@@ -80,7 +81,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
   Build the image by specifying the tmpfs cache directory :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --cache-dir=/var/cache/distrobuilder/build
+  distrobuilder build-lxd ubuntu.yml --cache-dir=/var/cache/distrobuilder/build
   ```
 
 ### References
