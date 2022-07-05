@@ -98,10 +98,10 @@ packages:
   - packages:
     - cloud-guest-utils
     action: install
-    types:
-    - vm
     variants:
     - cloud
+    types:
+    - vm
 
   - packages:
     - unattended-upgrades
