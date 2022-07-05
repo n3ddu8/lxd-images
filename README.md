@@ -80,7 +80,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
   Build the image by specifying the tmpfs cache directory :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --import-into-lxd=<image alias> --cache-dir=/var/cache/distrobuilder/build
+  distrobuilder build-lxd ubuntu.yml --cache-dir=/var/cache/distrobuilder/build
   ```
 
 ### References
