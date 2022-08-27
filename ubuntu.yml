@@ -88,6 +88,7 @@ packages:
     - apparmor-profiles
     - grub-efi-amd64-signed
     - linux-image-kvm
+    - nftables
     - shim-signed
     action: install
     variants:
@@ -162,7 +163,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd
+      systemctl enable systemd-timesyncd nftables
     types:
     - vm
 
