@@ -61,6 +61,7 @@ packages:
     - chrony
     - grub2-efi-x64
     - kernel
+    - nftables
     - shim
     action: install
     variants:
@@ -153,7 +154,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable chronyd
+      systemctl enable chronyd nftables
     types:
     - vm
 
