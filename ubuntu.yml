@@ -36,10 +36,12 @@ packages:
     - bash-completion
     - curl
     - diffutils
+    - gnupg2
     - iputils-ping
-    - less
-    - lsof
     - language-pack-en
+    - less
+    - lsb-release
+    - lsof
     - netbase
     - netplan.io
     - netcat-openbsd
