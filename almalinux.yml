@@ -193,6 +193,7 @@ actions:
       target=/boot/efi/EFI/almalinux/grub.cfg
       grub2-mkconfig -o "${target}"
       sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
+      sed -ri 's|/var/cache/distrobuilder.*/boot|/boot|g' /boot/loader/entries/*
       sed -ri 's|/rootfs||g' /boot/loader/entries/*
       # Regenerate initramfs
       kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
