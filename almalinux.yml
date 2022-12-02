@@ -268,13 +268,15 @@ files:
       # Do not wait on grub prompt
       GRUB_TIMEOUT=0
       # Set the default commandline
-      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0"
+      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0 systemd.unified_cgroup_hierarchy=1 psi=1"
       # Set the grub console type
       GRUB_TERMINAL=console
       # Disable os-prober
       GRUB_DISABLE_OS_PROBER=true
     types:
     - vm
+    releases:
+    - 8
 
   - path: /etc/dracut.conf.d/lxd.conf
     generator: dump
@@ -282,6 +284,24 @@ files:
       add_drivers+=" virtio_scsi virtio_console sd_mod "
     types:
     - vm
+
+  - path: /etc/default/grub
+    generator: dump
+    content: |-
+      # Set the recordfail timeout
+      GRUB_RECORDFAIL_TIMEOUT=0
+      # Do not wait on grub prompt
+      GRUB_TIMEOUT=0
+      # Set the default commandline
+      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0 psi=1"
+      # Set the grub console type
+      GRUB_TERMINAL=console
+      # Disable os-prober
+      GRUB_DISABLE_OS_PROBER=true
+    types:
+    - vm
+    releases:
+    - 9
 
   # Blacklist IPMI module since it's loaded in VM and therefore the module-load systemd service crash
   # Link: https://bugzilla.redhat.com/show_bug.cgi?id=2037294  
