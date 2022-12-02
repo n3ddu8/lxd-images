@@ -269,6 +269,12 @@ files:
     types:
     - vm
 
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
+    generator: copy
+    types:
+    - vm
+
   - path: /etc/systemd/network/10-default.network
     source: config/systemd-networkd/eth0.network
     generator: copy

@@ -285,6 +285,12 @@ files:
     types:
     - vm
 
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
+    generator: copy
+    types:
+    - vm
+
   - path: /etc/netplan/10-default.yaml
     source: config/netplan/container.yaml
     generator: copy

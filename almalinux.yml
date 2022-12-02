@@ -308,6 +308,12 @@ files:
     types:
     - vm
 
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
+    generator: copy
+    types:
+    - vm
+
   - path: /etc/systemd/journald.conf
     source: config/systemd-journald/journald.conf
     generator: copy
