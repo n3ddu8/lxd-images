@@ -19,7 +19,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 34359738368 # 32 GiB
+      size: 20 # 20 GiB
 
 packages:
   manager: apt
