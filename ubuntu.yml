@@ -19,7 +19,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 34359738368 # 32 GiB
+      size: 20 # 20 GiB
 
 packages:
   manager: apt
@@ -281,6 +281,12 @@ files:
 
   - path: /etc/udev/rules.d/80-iosched.rules
     source: config/udev/80-iosched.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
     generator: copy
     types:
     - vm

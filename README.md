@@ -12,9 +12,10 @@ This repository contains manifests to build custom LXD system container and virt
 | :--------------| :---------| :------------------| :---------| :---------------|
 | Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
 | Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
-| Fedora         | `36`      | `default`, `cloud` | ✅        | ✅              |
+| Fedora         | `37`      | `default`, `cloud` | ✅        | ✅              |
 | Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
 | Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `kinetic` | `default`, `cloud` | ✅        | ✅              |
 
 **Variants**
 
@@ -63,7 +64,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
   distrobuilder build-lxd ubuntu.yml -o image.release=jammy [options]
 
   # Fedora
-  distrobuilder build-lxd fedora.yml -o image.release=36 [options]
+  distrobuilder build-lxd fedora.yml -o image.release=37 [options]
 
   # Alma Linux
   distrobuilder build-lxd almalinux.yml -o image.release=9 [options]

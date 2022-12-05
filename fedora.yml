@@ -1,7 +1,7 @@
 ---
 image:
   distribution: fedora
-  release: 36
+  release: 37
   architecture: x86_64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
   description: "Fedora {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
@@ -15,7 +15,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 34359738368 # 32 GiB
+      size: 21474836480 # 20 GiB
 
 packages:
   manager: dnf
@@ -265,6 +265,12 @@ files:
 
   - path: /etc/udev/rules.d/80-iosched.rules
     source: config/udev/80-iosched.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
     generator: copy
     types:
     - vm
