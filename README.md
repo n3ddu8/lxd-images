@@ -20,7 +20,7 @@ This repository contains manifests to build custom LXD system container and virt
 **Variants**
 
 * ***default*** - standard userspace
-* ***cloud*** - standard userspace with an SSH server embedded and cloud-init capabilities
+* ***cloud*** - standard userspace with an SSH server and `cloud-init` utilities embedded
 
 #### Requirements
 
