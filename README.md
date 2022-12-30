@@ -26,6 +26,11 @@ This repository contains manifests to build custom LXD system container and virt
 
 * LXD >= 4.0 (for virtual machines support)
 * Distrobuilder >= 2.0
+* Build tools
+  - qemu-utils
+  - debootstrap
+  - btrfs-progs
+  - rsync
 
 ### How to build these images ?
 
