@@ -88,8 +88,9 @@ packages:
   - packages:
     - apparmor
     - apparmor-profiles
+    - chrony
     - grub-efi-amd64-signed
-    - linux-image-kvm
+    - linux-image-virtual
     - nftables
     - shim-signed
     action: install
@@ -165,7 +166,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd nftables
+      systemctl enable chrony nftables
     types:
     - vm
 
@@ -311,8 +312,8 @@ files:
     source: config/systemd-journald/journald.conf
     generator: copy
   
-  - path: /etc/systemd/timesyncd.conf
-    source: config/systemd-timesyncd/timesyncd.conf
+  - path: /etc/chrony/chrony.conf
+    source: config/chrony/chrony.conf
     generator: copy
     types:
     - vm
