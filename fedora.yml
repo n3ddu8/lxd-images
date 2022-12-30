@@ -64,6 +64,7 @@ packages:
     - cloud
 
   - packages:
+    - chrony
     - dracut
     - grub2-efi-x64
     - kernel
@@ -154,7 +155,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-timesyncd nftables
+      systemctl enable chronyd nftables
     types:
     - vm
 
@@ -295,8 +296,8 @@ files:
     source: config/systemd-journald/journald.conf
     generator: copy
   
-  - path: /etc/systemd/timesyncd.conf
-    source: config/systemd-timesyncd/timesyncd.conf
+  - path: /etc/chrony.conf
+    source: config/chrony/chrony.conf
     generator: copy
     types:
     - vm
