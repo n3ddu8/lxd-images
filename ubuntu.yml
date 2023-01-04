@@ -51,7 +51,7 @@ packages:
     - uidmap
     - udev
     - unzip
-    - vim-tiny
+    - vim
     - wget
     action: install
     variants:
