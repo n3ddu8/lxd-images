@@ -13,8 +13,8 @@ This repository contains manifests to build custom LXD system container and virt
 | Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
 | Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
 | Fedora         | `37`      | `default`, `cloud` | ✅        | ✅              |
-| Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
 | Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
+| Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
 | Ubuntu         | `kinetic` | `default`, `cloud` | ✅        | ✅              |
 
 **Variants**
