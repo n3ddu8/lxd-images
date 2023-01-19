@@ -19,7 +19,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 21474836480 # 20 GiB
+      size: 34359738368 # 32 GiB
 
 packages:
   manager: apt
@@ -34,6 +34,7 @@ packages:
   sets:
   - packages:
     - bash-completion
+    - cloud-init
     - curl
     - diffutils
     - gnupg2
@@ -54,34 +55,16 @@ packages:
     - vim
     - wget
     action: install
-    variants:
-    - default
-    - cloud
-
-  - packages:
-    - cloud-init
-    - openssh-server
-    - openssh-client
-    - sudo
-    action: install
-    variants:
-    - cloud
 
   - packages:
     - fuse3
     action: install
-    variants:
-    - default
-    - cloud
     releases:
     - jammy
 
   - packages:
     - fuse
     action: install
-    variants:
-    - default
-    - cloud
     releases:
     - focal
 
@@ -89,22 +72,12 @@ packages:
     - apparmor
     - apparmor-profiles
     - chrony
+    - cloud-guest-utils
     - grub-efi-amd64-signed
     - linux-image-virtual
     - nftables
     - shim-signed
     action: install
-    variants:
-    - default
-    - cloud
-    types:
-    - vm
-
-  - packages:
-    - cloud-guest-utils
-    action: install
-    variants:
-    - cloud
     types:
     - vm
 
@@ -114,9 +87,6 @@ packages:
     - os-prober
     - packagekit
     action: remove
-    variants:
-    - default
-    - cloud
 
 actions:
   # Generate machine-id in order for the kernel stuff to be configured properly
@@ -150,16 +120,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-networkd systemd-resolved
-
-  # Extra systemd units to enable for 'cloud' variant
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      systemctl enable ssh cloud-init
-    variants:
-    - cloud
+      systemctl enable systemd-networkd systemd-resolved cloud-init
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -234,18 +195,12 @@ files:
 
   - name: meta-data
     generator: cloud-init
-    variants:
-    - cloud
 
   - name: network-config
     generator: cloud-init
-    variants:
-    - cloud
 
   - name: user-data
     generator: cloud-init
-    variants:
-    - cloud
 
   - path: /etc/default/grub.d/50-lxd.cfg
     generator: dump
@@ -318,14 +273,6 @@ files:
     types:
     - vm
 
-  - path: /etc/ssh/sshd_config
-    source: config/ssh/sshd_config
-    generator: copy
-    variants:
-    - cloud
-  
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/ubuntu.cfg
     generator: copy
-    variants:
-    - cloud

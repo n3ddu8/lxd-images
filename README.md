@@ -8,19 +8,14 @@ This repository contains manifests to build custom LXD system container and virt
 
 **Images**
 
-| Distribution   | Release   | Variants           | Container | Virtual machine |
-| :--------------| :---------| :------------------| :---------| :---------------|
-| Alma Linux     | `8`       | `default`, `cloud` | ✅        | ✅              |
-| Alma Linux     | `9`       | `default`, `cloud` | ✅        | ✅              |
-| Fedora         | `37`      | `default`, `cloud` | ✅        | ✅              |
-| Ubuntu         | `focal`   | `default`, `cloud` | ✅        | ✅              |
-| Ubuntu         | `jammy`   | `default`, `cloud` | ✅        | ✅              |
-| Ubuntu         | `kinetic` | `default`, `cloud` | ✅        | ✅              |
-
-**Variants**
-
-* ***default*** - standard userspace
-* ***cloud*** - standard userspace with an SSH server and `cloud-init` utilities embedded
+| Distribution   | Release   | Variants  | Container | Virtual machine |
+| :--------------| :---------| :---------| :---------| :---------------|
+| Alma Linux     | `8`       | `default` | ✅        | ✅              |
+| Alma Linux     | `9`       | `default` | ✅        | ✅              |
+| Fedora         | `37`      | `default` | ✅        | ✅              |
+| Ubuntu         | `focal`   | `default` | ✅        | ✅              |
+| Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
+| Ubuntu         | `kinetic` | `default` | ✅        | ✅              |
 
 #### Requirements
 

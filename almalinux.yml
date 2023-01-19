@@ -16,7 +16,7 @@ targets:
   lxd:
     vm:
       filesystem: ext4
-      size: 21474836480 # 20 GiB
+      size: 34359738368 # 32 GiB
 
 packages:
   manager: dnf
@@ -25,6 +25,7 @@ packages:
   sets:
   - packages:
     - bash-completion
+    - cloud-init
     - dnf-plugins-core
     - epel-release
     - glibc-langpack-en
@@ -44,37 +45,15 @@ packages:
     - vim-minimal
     - wget
     action: install
-    variants:
-    - default
-    - cloud
-
-  - packages:
-    - cloud-init
-    - openssh-clients
-    - openssh-server
-    - sudo
-    action: install
-    variants:
-    - cloud
 
   - packages:
     - chrony
+    - cloud-utils-growpart
     - grub2-efi-x64
     - kernel
     - nftables
     - shim
     action: install
-    variants:
-    - default
-    - cloud
-    types:
-    - vm
-  
-  - packages:
-    - cloud-utils-growpart
-    action: install
-    variants:
-    - cloud
     types:
     - vm
 
@@ -83,9 +62,6 @@ packages:
     - mdadm
     - udisks2
     action: remove
-    variants:
-    - default
-    - cloud
     types:
     - vm
 
@@ -139,15 +115,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable NetworkManager
-
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      systemctl enable sshd cloud-init cloud-init-local cloud-config cloud-final
-    variants:
-    - cloud
+      systemctl enable NetworkManager cloud-init cloud-init-local cloud-config cloud-final
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -234,17 +202,14 @@ files:
   - name: meta-data
     generator: cloud-init
     variants:
-    - cloud
 
   - name: user-data
     generator: cloud-init
     variants:
-    - cloud
 
   - name: vendor-data
     generator: cloud-init
     variants:
-    - cloud
 
   - name: network-config
     generator: cloud-init
@@ -258,8 +223,6 @@ files:
               control: auto
             - type: dhcp6
               control: auto{% else %}{{ config_get("user.network-config", "") }}{% endif %}
-    variants:
-    - cloud
 
   - path: /etc/default/grub
     generator: dump
@@ -347,15 +310,6 @@ files:
     source: config/dnf/dnf.conf
     generator: copy
   
-  - path: /etc/ssh/sshd_config
-    source: config/ssh/sshd_config
-    generator: copy
-    variants:
-    - cloud
-
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/rhel.cfg
     generator: copy
-    variants:
-    - cloud
-
