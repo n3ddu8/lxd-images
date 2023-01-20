@@ -1,3 +1,2 @@
 # Deployed by Distrobuilder
-
 ACTION=="add|change", KERNEL=="sd[a-z]", SUBSYSTEM=="block", ATTR{queue/scheduler}="none"
