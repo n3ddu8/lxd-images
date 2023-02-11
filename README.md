@@ -18,7 +18,6 @@ The following images are known to work using these manifests, other distribution
 | Ubuntu         | `focal`   | `default` | ✅        | ✅              |                        |
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |                        |
 
-NOTES:
 \* *Virtual machine images only*
 
 #### Requirements
