@@ -10,13 +10,16 @@ This repository contains manifests to build custom LXD system container and virt
 
 The following images are known to work using these manifests, other distribution versions may not work.
 
-| Distribution   | Release   | Variants  | Container | Virtual machine |
-| :--------------| :---------| :---------| :---------| :---------------|
-| Alma Linux     | `8`       | `default` | ✅        | ✅              |
-| Alma Linux     | `9`       | `default` | ✅        | ✅              |
-| Fedora         | `37`      | `default` | ✅        | ✅              |
-| Ubuntu         | `focal`   | `default` | ✅        | ✅              |
-| Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
+| Distribution   | Release   | Variants  | Container | Virtual machine | Features               |
+| :--------------| :---------| :---------| :---------| :---------------| :----------------------|
+| Alma Linux     | `8`       | `default` | ✅        | ✅              | `cgroupsv2`\*, `psi`\* |
+| Alma Linux     | `9`       | `default` | ✅        | ✅              | `psi`\*                |
+| Fedora         | `37`      | `default` | ✅        | ✅              |                        |
+| Ubuntu         | `focal`   | `default` | ✅        | ✅              |                        |
+| Ubuntu         | `jammy`   | `default` | ✅        | ✅              |                        |
+
+NOTES:
+\* *Virtual machine images only*
 
 #### Requirements
 
