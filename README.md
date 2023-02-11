@@ -8,6 +8,8 @@ This repository contains manifests to build custom LXD system container and virt
 
 **Images**
 
+The following images are known to work using these manifests, other distribution versions may not work.
+
 | Distribution   | Release   | Variants  | Container | Virtual machine |
 | :--------------| :---------| :---------| :---------| :---------------|
 | Alma Linux     | `8`       | `default` | ✅        | ✅              |
@@ -15,17 +17,16 @@ This repository contains manifests to build custom LXD system container and virt
 | Fedora         | `37`      | `default` | ✅        | ✅              |
 | Ubuntu         | `focal`   | `default` | ✅        | ✅              |
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
-| Ubuntu         | `kinetic` | `default` | ✅        | ✅              |
 
 #### Requirements
 
 * LXD >= 4.0 (for virtual machines support)
 * Distrobuilder >= 2.0
 * Build tools
-  - qemu-utils
-  - debootstrap
-  - btrfs-progs
-  - rsync
+  - *qemu-utils*
+  - *debootstrap*
+  - *btrfs-progs*
+  - *rsync*
 
 ### How to build these images ?
 
