@@ -80,8 +80,8 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      ln -sfn /usr/share/zoneinfo/Europe/Paris /etc/localtime
-      echo "Europe/Paris" > /etc/timezone
+      ln -sfn /usr/share/zoneinfo/Etc/UTC /etc/localtime
+      echo "Etc/UTC" > /etc/timezone
 
   # Configure locale 
   - trigger: post-packages
