@@ -46,9 +46,11 @@ packages:
     - netbase
     - netplan.io
     - netcat-openbsd
+    - nftables
     - strace
     - systemd
     - systemd-sysv
+    - ufw
     - uidmap
     - udev
     - unzip
@@ -120,7 +122,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable systemd-networkd systemd-resolved cloud-init
+      systemctl enable systemd-networkd systemd-resolved cloud-init ufw
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
