@@ -14,7 +14,7 @@ The following images are known to work using these manifests, other distribution
 | :--------------| :---------| :---------| :---------| :---------------| :----------------------|
 | Alma Linux     | `8`       | `default` | ✅        | ✅              | `cgroupsv2`\*, `psi`\* |
 | Alma Linux     | `9`       | `default` | ✅        | ✅              | `psi`\*                |
-| Fedora         | `37`      | `default` | ✅        | ✅              |                        |
+| Fedora         | `38`      | `default` | ✅        | ✅              |                        |
 | Ubuntu         | `focal`   | `default` | ✅        | ✅              |                        |
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |                        |
 
