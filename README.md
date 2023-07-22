@@ -10,12 +10,10 @@ This repository contains manifests to build custom LXD system container and virt
 
 The following images are known to work using these manifests, other distribution versions may not work.
 
-| Distribution   | Release   | Variants  | Container | Virtual machine | Features               |
-| :--------------| :---------| :---------| :---------| :---------------| :----------------------|
-| Alma Linux     | `8`       | `default` | ✅        | ✅              | `cgroupsv2`\*, `psi`\* |
-| Alma Linux     | `9`       | `default` | ✅        | ✅              | `psi`\*                |
-| Ubuntu         | `focal`   | `default` | ✅        | ✅              |                        |
-| Ubuntu         | `jammy`   | `default` | ✅        | ✅              |                        |
+| Distribution   | Release   | Variants  | Container | Virtual machine |
+| :--------------| :---------| :---------| :---------| :---------------|
+| Ubuntu         | `focal`   | `default` | ✅        | ✅              |
+| Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
 
 \* *Virtual machine images only*
 
@@ -42,7 +40,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
 * **Container image**
 
   ```shell
-  distrobuilder build-lxd fedora.yml [options]
+  distrobuilder build-lxd ubuntu.yml [options]
   ```
 
 * **Virtual machine image**
@@ -53,23 +51,11 @@ Then, build the image using `distrobuilder`, you have multiple options :
   distrobuilder build-lxd ubuntu.yml --vm [options]
   ```
 
-* **Build a specific image variant**
-
-  ```shell
-  distrobuilder build-lxd ubuntu.yml -o image.variant=cloud [options]
-  ```
-
 * **Choose a distribution release version**
 
   ```shell
   # Ubuntu
   distrobuilder build-lxd ubuntu.yml -o image.release=jammy [options]
-
-  # Fedora
-  distrobuilder build-lxd fedora.yml -o image.release=37 [options]
-
-  # Alma Linux
-  distrobuilder build-lxd almalinux.yml -o image.release=9 [options]
   ```
 
 * **Use a tmpfs for build cache**
