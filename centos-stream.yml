@@ -1,15 +1,15 @@
 ---
 image:
-  distribution: almalinux
-  release: 8
+  distribution: centos
+  release: 8-Stream
   architecture: x86_64
   name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
-  description: "AlmaLinux {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
+  description: "CentOS {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
   variant: default
 
 source:
-  downloader: almalinux-http
-  url: https://repo.almalinux.org/almalinux/
+  downloader: centos-http
+  url: https://fr2.rpmfind.net/linux/centos
   variant: boot
 
 targets:
@@ -28,6 +28,7 @@ packages:
     - cloud-init
     - dnf-plugins-core
     - epel-release
+    - epel-next-release
     - glibc-langpack-en
     - glibc-locale-source
     - hostname
@@ -37,6 +38,7 @@ packages:
     - lsof
     - NetworkManager
     - nmap-ncat
+    - nftables
     - passwd
     - rootfiles
     - strace
@@ -51,7 +53,6 @@ packages:
     - cloud-utils-growpart
     - grub2-efi-x64
     - kernel
-    - nftables
     - shim
     action: install
     types:
@@ -59,8 +60,7 @@ packages:
 
   - packages:
     - linux-firmware
-    - mdadm
-    - udisks2
+    - polkit
     action: remove
     types:
     - vm
@@ -91,7 +91,6 @@ actions:
       # Set default locale
       localedef -i en_US -f UTF-8 en_US.UTF-8
       echo 'LANG=en_US.utf8' > /etc/locale.conf
-
   # Enable extra repos (EPEL)
   - trigger: post-packages
     action: |-
@@ -99,7 +98,7 @@ actions:
       set -eux
       dnf config-manager --set-enabled powertools
     releases:
-    - 8
+    - 8-Stream
 
   # Enable extra repos (EPEL)
   - trigger: post-packages
@@ -108,68 +107,77 @@ actions:
       set -eux
       dnf config-manager --set-enabled crb
     releases:
-    - 9
+    - 9-Stream
 
-  # Default systemd units to enable
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      systemctl enable NetworkManager cloud-init cloud-init-local cloud-config cloud-final
-
-  # Additionnal units to manage for VMs
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      systemctl enable chronyd nftables
-    types:
-    - vm
-
-  # Fix symlink for Python on EL 8
+  # Fix symlink for Python on CentOS Stream 8
   - trigger: post-packages
     action: |-
       #!/bin/sh
       set -eux
       ln -sf /usr/libexec/platform-python3.6 /usr/libexec/platform-python
     releases:
-    - 8
+    - 8-Stream
+
+  # Default systemd units to enable
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      systemctl enable NetworkManager \
+                       nftables \
+                       cloud-init \
+                       cloud-init-local \
+                       cloud-config \
+                       cloud-final
+
+  # Additionnal units to manage for VMs
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      systemctl enable chronyd
+    types:
+    - vm
 
   - trigger: post-files
     action: |-
       #!/bin/sh
       set -eux
-      # Generate GRUB config
+  
+      # Regenerate initramfs
+      kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
+      dracut --kver "${kver}" -f
+  
       target="$(readlink -f /etc/grub2-efi.cfg)"
       grub2-mkconfig -o "${target}"
+  
       sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
-      sed -ri 's|/rootfs||g' /boot/loader/entries/*
-      # Regenerate initramfs
-      kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
-      dracut --kver "${kver}" -f
     types:
     - vm
     releases:
-    - 8
-
+    - 8-Stream
+  
   - trigger: post-files
     action: |-
       #!/bin/sh
       set -eux
-      # Generate GRUB config
-      sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
-      target=/boot/efi/EFI/almalinux/grub.cfg
+      kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
+      target=/boot/efi/EFI/centos/grub.cfg
+  
+      # Create grub.cfg file
       grub2-mkconfig -o "${target}"
       sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
-      sed -ri 's|/var/cache/distrobuilder.*/boot|/boot|g' /boot/loader/entries/*
-      sed -ri 's|/rootfs||g' /boot/loader/entries/*
+  
+      # Update files in /boot/loader/entries/. `grubby` needs to be run after
+      # `grub2-mkconfig` as the latter overwrites files in /boot/loader/entries/.
+      grubby --update-kernel=/boot/vmlinuz-${kver} --args="root=/dev/sda2 ro"
+  
       # Regenerate initramfs
-      kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
       dracut --kver "${kver}" -f
     types:
     - vm
     releases:
-    - 9
+    - 9-Stream
 
 files:
   - name: fstab
@@ -184,13 +192,13 @@ files:
 
   - path: /etc/machine-id
     generator: dump
-  
+
   - path: /var/lib/dbus/machine-id
     generator: remove
-  
+
   - path: /etc/hostname
     generator: hostname
-  
+
   - path: /etc/hosts
     generator: hosts
 
@@ -201,15 +209,12 @@ files:
 
   - name: meta-data
     generator: cloud-init
-    variants:
 
   - name: user-data
     generator: cloud-init
-    variants:
 
   - name: vendor-data
     generator: cloud-init
-    variants:
 
   - name: network-config
     generator: cloud-init
@@ -223,6 +228,9 @@ files:
               control: auto
             - type: dhcp6
               control: auto{% else %}{{ config_get("user.network-config", "") }}{% endif %}
+    releases:
+    - 8-Stream
+    - 9-Stream
 
   - path: /etc/default/grub
     generator: dump
@@ -232,15 +240,13 @@ files:
       # Do not wait on grub prompt
       GRUB_TIMEOUT=0
       # Set the default commandline
-      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0 systemd.unified_cgroup_hierarchy=1 psi=1"
+      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0"
       # Set the grub console type
       GRUB_TERMINAL=console
       # Disable os-prober
       GRUB_DISABLE_OS_PROBER=true
     types:
     - vm
-    releases:
-    - 8
 
   - path: /etc/dracut.conf.d/lxd.conf
     generator: dump
@@ -248,24 +254,6 @@ files:
       add_drivers+=" virtio_scsi virtio_console sd_mod "
     types:
     - vm
-
-  - path: /etc/default/grub
-    generator: dump
-    content: |-
-      # Set the recordfail timeout
-      GRUB_RECORDFAIL_TIMEOUT=0
-      # Do not wait on grub prompt
-      GRUB_TIMEOUT=0
-      # Set the default commandline
-      GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} console=tty1 console=ttyS0 psi=1"
-      # Set the grub console type
-      GRUB_TERMINAL=console
-      # Disable os-prober
-      GRUB_DISABLE_OS_PROBER=true
-    types:
-    - vm
-    releases:
-    - 9
 
   # Blacklist IPMI module since it's loaded in VM and therefore the module-load systemd service crash
   # Link: https://bugzilla.redhat.com/show_bug.cgi?id=2037294  
@@ -276,15 +264,13 @@ files:
     types:
     - vm
     releases:
-    - 8
+    - 8-Stream
 
-  - name: 86-nm-unmanaged.rules
-    path: /etc/udev/rules.d/86-nm-unmanaged.rules
-    generator: dump
-    content: |-
-      ENV{ID_NET_DRIVER}=="veth", ENV{NM_UNMANAGED}="0"
+  - path: /etc/sysctl.d/10-silence-audit.conf
+    source: config/sysctl/10-silence-audit.conf
+    generator: copy
     types:
-    - container
+    - vm
 
   - path: /etc/udev/rules.d/80-iosched.rules
     source: config/udev/80-iosched.rules
@@ -298,6 +284,14 @@ files:
     types:
     - vm
 
+  - path: /etc/udev/rules.d/86-nm-unmanaged.rules
+    generator: dump
+    content: |-
+      ENV{ID_NET_DRIVER}=="veth", ENV{NM_UNMANAGED}="0"
+    releases:
+    - 8-Stream
+    - 9-Stream
+
   - path: /etc/systemd/journald.conf
     source: config/systemd-journald/journald.conf
     generator: copy
@@ -305,11 +299,11 @@ files:
   - path: /etc/chrony.conf
     source: config/chrony/chrony.conf
     generator: copy
- 
+
   - path: /etc/dnf/dnf.conf
     source: config/dnf/dnf.conf
     generator: copy
-  
+
   - path: /etc/cloud/cloud.cfg
     source: config/cloud-init/rhel.cfg
     generator: copy
