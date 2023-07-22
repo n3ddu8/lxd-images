@@ -4,7 +4,7 @@
 
 ### General informations
 
-This repository contains manifests to build custom LXD system container and virtual machine images using Distrobuilder.
+This repository contains my personal manifests to build custom LXD container and virtual machine images using Distrobuilder in my homelab.
 
 **Images**
 
