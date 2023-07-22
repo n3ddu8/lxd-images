@@ -34,6 +34,7 @@ packages:
     - findmnt
     - iproute2-ss
     - logrotate
+    - musl-locales
     - netcat-openbsd
     - py3-pyserial
     - py3-netifaces
