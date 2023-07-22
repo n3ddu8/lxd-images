@@ -34,6 +34,8 @@ packages:
   sets:
   - packages:
     - bash-completion
+    - bind9-host
+    - bind9-dnsutils
     - cloud-init
     - curl
     - diffutils
