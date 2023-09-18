@@ -74,6 +74,19 @@ Then, build the image using `distrobuilder`, you have multiple options :
   distrobuilder build-lxd ubuntu.yml --cache-dir=/var/cache/distrobuilder/build
   ```
 
+* **Adding the container image to LXD**
+
+  Add the container image to a LXD installation :
+
+  ```shell
+  lxc image import lxd.tar.xz rootfs.squashfs --alias mycontainerimage
+  ```
+
+  Launch a container from the freshly created container image :
+
+  ```shell
+  lxc launch mycontainerimage c1
+
 ### References
 
 * LXD : https://linuxcontainers.org/lxd/introduction/
