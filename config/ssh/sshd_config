@@ -10,6 +10,7 @@ PermitRootLogin no
 PubkeyAuthentication yes
 PasswordAuthentication no
 PermitEmptyPasswords no
+AuthenticationMethods publickey
 UsePAM yes
 PrintMotd no
 AllowAgentForwarding yes
