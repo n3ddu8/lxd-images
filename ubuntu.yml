@@ -49,8 +49,6 @@ packages:
     - netplan.io
     - netcat-openbsd
     - nftables
-    - openssh-client
-    - openssh-server
     - strace
     - sudo
     - systemd
@@ -126,7 +124,7 @@ actions:
     action: |-
       #!/bin/sh
       set -eux
-      systemctl enable ssh systemd-networkd systemd-resolved cloud-init ufw
+      systemctl enable systemd-networkd systemd-resolved cloud-init ufw
 
   # Additionnal units to manage for VMs
   - trigger: post-packages
@@ -136,14 +134,6 @@ actions:
       systemctl enable chrony
     types:
     - vm
-
-  # Manage custom local users/groups
-  - trigger: post-packages
-    action: |-
-      #!/bin/sh
-      set -eux
-      # Add local 'admins' group for sudo and ssh connections
-      groupadd -g 10009 admins
 
   - trigger: post-packages
     action: |-
@@ -330,20 +320,6 @@ files:
     uid: 0
     gid: 0
     mode: 0644
-
-  - path: /etc/ssh/sshd_config
-    source: config/ssh/sshd_config
-    generator: copy
-    uid: 0
-    gid: 0
-    mode: 0644
-
-  - path: /etc/sudoers.d
-    source: config/sudo
-    generator: copy
-    uid: 0
-    gid: 0
-    mode: 0440
 
   - path: /usr/lib/systemd/lxd-agent-setup
     source: config/lxd-agent/lxd-agent-setup
