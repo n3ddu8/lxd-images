@@ -20,8 +20,8 @@ The following images are known to work using these manifests, other distribution
 
 #### Requirements
 
-* LXD >= 4.0 (for virtual machines support)
-* Distrobuilder >= 2.0
+* LXD >= 5.0
+* Distrobuilder >= 3.0
 * Build tools
   - *qemu-utils*
   - *debootstrap*
