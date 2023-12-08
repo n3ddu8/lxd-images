@@ -16,7 +16,7 @@ mappings:
   architecture_map: debian
 
 targets:
-  lxd:
+  incus:
     vm:
       filesystem: ext4
       size: 34359738368 # 32 GiB
@@ -196,11 +196,6 @@ files:
   - path: /etc/hosts
     generator: hosts
 
-  - name: lxd-agent
-    generator: lxd-agent
-    types:
-    - vm
-
   - path: /etc/resolvconf/resolv.conf.d/original
     generator: remove
 
@@ -270,6 +265,24 @@ files:
     types:
     - vm
 
+  - path: /etc/udev/rules.d/80-lxd-agent.rules
+    source: config/udev/80-lxd-agent.rules
+    generator: copy
+    uid: 0
+    gid: 0
+    mode: 0644
+    types:
+    - vm
+
+  - path: /usr/lib/systemd/system/lxd-agent.service
+    source: config/lxd-agent/lxd-agent.service
+    generator: copy
+    uid: 0
+    gid: 0
+    mode: 0644
+    types:
+    - vm
+
   - path: /etc/netplan/10-default.yaml
     source: config/netplan/container.yaml
     generator: copy
@@ -331,3 +344,10 @@ files:
     uid: 0
     gid: 0
     mode: 0440
+
+  - path: /usr/lib/systemd/lxd-agent-setup
+    source: config/lxd-agent/lxd-agent-setup
+    generator: copy
+    uid: 0
+    gid: 0
+    mode: 0755
