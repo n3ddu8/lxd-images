@@ -4,7 +4,7 @@
 
 ### General informations
 
-This repository contains my personal manifests to build custom LXD container and virtual machine images using Distrobuilder in my homelab.
+This repository contains my personal manifests to build custom LXD container and virtual machine images using Distrobuilder in my homelab. These manifests are based on Linux Containers manifests they use for their [image server](https://images.linuxcontainers.org/): https://github.com/lxc/lxc-ci/tree/master/images/
 
 **Images**
 
@@ -75,7 +75,6 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
 ### References
 
-* LXD : https://linuxcontainers.org/lxd/introduction/
+* LXD : https://ubuntu.com/lxd
 * Distrobuilder : https://linuxcontainers.org/distrobuilder/introduction/
 * Distrobuilder (doc) : https://distrobuilder.readthedocs.io/en/latest/
-* Official LXD images manifests : https://github.com/lxc/lxc-ci/tree/master/images/
