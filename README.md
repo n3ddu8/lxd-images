@@ -12,7 +12,6 @@ The following images are known to work using these manifests, other distribution
 
 | Distribution   | Release   | Variants  | Container | Virtual machine |
 | :--------------| :---------| :---------| :---------| :---------------|
-| Alpine Linux   | `3.18`    | `default` | ✅        | ✅              |
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
 
 \* *Virtual machine images only*
