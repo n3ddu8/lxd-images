@@ -14,8 +14,6 @@ The following images are known to work using these manifests, other distribution
 | :--------------| :---------| :---------| :---------| :---------------|
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
 
-\* *Virtual machine images only*
-
 #### Requirements
 
 * LXD >= 5.0
