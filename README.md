@@ -21,8 +21,8 @@ The following images are known to work using these manifests, other distribution
 
 * LXD >= 5.0
 * Distrobuilder >= 3.0
-* Build tools
-  - *qemu-utils*
+* System dependencies
+  - *qemu-utils* (qemu-img) 
   - *debootstrap*
   - *btrfs-progs*
   - *rsync*
