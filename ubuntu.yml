@@ -68,12 +68,6 @@ packages:
     - jammy
 
   - packages:
-    - fuse
-    action: install
-    releases:
-    - focal
-
-  - packages:
     - apparmor
     - apparmor-profiles
     - chrony
