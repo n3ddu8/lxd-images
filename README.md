@@ -41,7 +41,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
 * **Container image**
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml [options]
+  distrobuilder build-incus ubuntu.yml [options]
   ```
 
 * **Virtual machine image**
@@ -49,14 +49,14 @@ Then, build the image using `distrobuilder`, you have multiple options :
   You need to add a `--vm` flag in order to build a virtual machine image :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --vm [options]
+  distrobuilder build-incus ubuntu.yml --vm [options]
   ```
 
 * **Choose a distribution release version**
 
   ```shell
   # Ubuntu
-  distrobuilder build-lxd ubuntu.yml -o image.release=jammy [options]
+  distrobuilder build-incus ubuntu.yml -o image.release=jammy [options]
   ```
 
 * **Use a tmpfs for build cache**
@@ -71,7 +71,7 @@ Then, build the image using `distrobuilder`, you have multiple options :
   Build the image by specifying the tmpfs cache directory :
 
   ```shell
-  distrobuilder build-lxd ubuntu.yml --cache-dir=/var/cache/distrobuilder/build
+  distrobuilder build-incus ubuntu.yml --cache-dir=/var/cache/distrobuilder/build
   ```
 
 ### References
