@@ -4,7 +4,7 @@
 
 ### General informations
 
-This repository contains my personal manifests to build custom LXD container and virtual machine images using Distrobuilder in my homelab.
+This repository contains my personal manifests to build custom LXD container and virtual machine images using Distrobuilder in my homelab. These manifests are based on [Linux Containers project manifests](https://github.com/lxc/lxc-ci/tree/master/images/) they use for their [image server](https://images.linuxcontainers.org/).
 
 **Images**
 
@@ -12,18 +12,14 @@ The following images are known to work using these manifests, other distribution
 
 | Distribution   | Release   | Variants  | Container | Virtual machine |
 | :--------------| :---------| :---------| :---------| :---------------|
-| Alpine Linux   | `3.18`    | `default` | ✅        | ✅              |
-| Ubuntu         | `focal`   | `default` | ✅        | ✅              |
 | Ubuntu         | `jammy`   | `default` | ✅        | ✅              |
-
-\* *Virtual machine images only*
 
 #### Requirements
 
-* LXD >= 4.0 (for virtual machines support)
-* Distrobuilder >= 2.0
-* Build tools
-  - *qemu-utils*
+* LXD >= 5.0
+* Distrobuilder >= 3.0
+* System dependencies
+  - *qemu-utils* (qemu-img) 
   - *debootstrap*
   - *btrfs-progs*
   - *rsync*
@@ -89,7 +85,6 @@ Then, build the image using `distrobuilder`, you have multiple options :
 
 ### References
 
-* LXD : https://linuxcontainers.org/lxd/introduction/
+* LXD : https://ubuntu.com/lxd
 * Distrobuilder : https://linuxcontainers.org/distrobuilder/introduction/
 * Distrobuilder (doc) : https://distrobuilder.readthedocs.io/en/latest/
-* Official LXD images manifests : https://github.com/lxc/lxc-ci/tree/master/images/
