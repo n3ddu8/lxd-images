@@ -1,0 +1,251 @@
+---
+image:
+  distribution: alpine
+  release: 3.18
+  name: "{{ image.distribution }}-{{ image.release }}-{{ image.variant }}-{{ image.serial }}"
+  description: "Alpine Linux {{ image.release }} ({{ image.variant }}-{{ image.serial }})"
+  variant: default
+
+source:
+  downloader: alpinelinux-http
+  same_as: 3.12
+  url: https://mirrors.ircam.fr/pub/alpine
+
+mappings:
+  architecture_map: alpinelinux
+
+targets:
+  lxd:
+    vm:
+      filesystem: ext4
+      size: 34359738368 # 32 GiB
+
+packages:
+  manager: apk
+  update: true
+  cleanup: true
+  sets:
+  - packages:
+    - alpine-base
+    - bind-tools
+    - cgroup-tools
+    - cloud-init
+    - curl
+    - findmnt
+    - iproute2-ss
+    - logrotate
+    - musl-locales
+    - netcat-openbsd
+    - py3-pyserial
+    - py3-netifaces
+    - strace
+    - vim
+    action: install
+
+  - packages:
+    - acpi
+    - chrony
+    - grub-efi
+    - linux-virt
+    - lsblk
+    - udev
+    action: install
+    types:
+    - vm
+
+actions:
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      rm -f /var/cache/apk/*
+
+  # Honor fstab by not making the localmount script a noop
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      sed -i 's/-lxc//' /etc/init.d/localmount
+    types:
+    - container
+
+  # Setup services
+  - trigger: post-packages
+    action: |-
+      #!/bin/sh
+      set -eux
+      # Boot runlevel
+      for svc_name in bootmisc devfs; do
+        ln -s /etc/init.d/${svc_name} /etc/runlevels/boot/${svc_name}
+      done
+      # Default runlevel
+      for svc_name in networking crond syslog; do
+        ln -s /etc/init.d/${svc_name} /etc/runlevels/default/${svc_name}
+      done
+    types:
+    - container
+ 
+  - trigger: post-files
+    action: |-
+      #!/bin/sh
+      set -eux
+      # Boot runlevel
+      for svc_name in bootmisc hostname hwclock loadkmap modules swap sysctl urandom; do
+          ln -fs /etc/init.d/${svc_name} /etc/runlevels/boot/${svc_name}
+      done
+      # Sysinit runlevel
+      for svc_name in cgroups devfs dmesg hwdrivers mdev udev udev-settle udev-trigger; do
+          ln -fs /etc/init.d/${svc_name} /etc/runlevels/sysinit/${svc_name}
+      done
+      # Default runlevel
+      for svc_name in acpid crond chronyd networking syslog; do
+          ln -fs /etc/init.d/${svc_name} /etc/runlevels/default/${svc_name}
+      done
+    types:
+    - vm
+
+  - trigger: post-files
+    action: |-
+      #!/bin/sh
+      set -eux
+      target=/boot/grub/grub.cfg
+      grub-mkconfig -o "${target}"
+      sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
+      TARGET="x86_64"
+      [ "$(uname -m)" = "aarch64" ] && TARGET="arm64"
+      grub-install --target=${TARGET}-efi --no-nvram --removable
+      grub-install --target=${TARGET}-efi --no-nvram
+      # Attempt to correct errors in the installation of all packages.
+      apk fix
+    types:
+    - vm
+
+  - trigger: post-files
+    action: |-
+      #!/bin/sh
+      set -eux
+      setup-cloud-init
+
+files:
+  - name: fstab
+    generator: fstab
+    types:
+    - vm
+
+  - path: /etc/fstab
+    generator: dump
+    types:
+    - container
+
+  - path: /etc/hostname
+    generator: hostname
+
+  - path: /etc/hosts
+    generator: hosts
+
+  - generator: lxd-agent
+    types:
+    - vm
+
+  - name: meta-data
+    generator: cloud-init
+  
+  - name: network-config
+    generator: cloud-init
+    content: |-
+      version: 1
+      config:
+        - type: physical
+          name: eth0
+          subnets:
+            - type: dhcp
+              control: auto
+  
+  - name: user-data
+    generator: cloud-init
+
+  - path: /etc/default/grub
+    generator: dump
+    pongo: true
+    content: |-
+      GRUB_RECORDFAIL_TIMEOUT=0
+      GRUB_TIMEOUT=0
+      GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0 modules=sd-mod,usb-storage,{{ targets.lxd.vm.filesystem }} rootfstype={{ targets.lxd.vm.filesystem }}"
+      GRUB_TERMINAL=console
+      GRUB_DISABLE_OS_PROBER=true
+    types:
+    - vm
+
+  - path: /etc/rc.conf
+    source: config/openrc/lxc.rc.conf
+    generator: copy
+    types:
+    - container
+
+  - path: /etc/rc.conf
+    source: config/openrc/vm.rc.conf
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/network/interfaces
+    generator: dump
+    content: |-
+      auto eth0
+      iface eth0 inet dhcp
+      hostname $(hostname)
+  
+  - path: /etc/inittab
+    generator: dump
+    content: |-
+      # /etc/inittab
+      ::sysinit:/sbin/openrc sysinit
+      ::sysinit:/sbin/openrc boot
+      ::wait:/sbin/openrc default
+      # Set up a couple of getty's
+      ::respawn:/sbin/getty 38400 console
+      tty1::respawn:/sbin/getty 38400 tty1
+      tty2::respawn:/sbin/getty 38400 tty2
+      tty3::respawn:/sbin/getty 38400 tty3
+      tty4::respawn:/sbin/getty 38400 tty4
+      # Stuff to do for the 3-finger salute
+      ::ctrlaltdel:/sbin/reboot
+      # Stuff to do before rebooting
+      ::shutdown:/sbin/openrc shutdown
+  
+  - path: /etc/inittab
+    generator: template
+    name: inittab
+    content: |-
+      # /etc/inittab
+      ::sysinit:/sbin/openrc sysinit
+      ::sysinit:/sbin/openrc boot
+      ::wait:/sbin/openrc default
+      # Set up a couple of getty's
+      ::respawn:/sbin/getty 38400 console
+      # Stuff to do for the 3-finger salute
+      ::ctrlaltdel:/sbin/reboot
+      # Stuff to do before rebooting
+      ::shutdown:/sbin/openrc shutdown
+
+  - path: /etc/udev/rules.d/80-iosched.rules
+    source: config/udev/80-iosched.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/udev/rules.d/80-cpu-hotplug.rules
+    source: config/udev/80-cpu-hotplug.rules
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/chrony/chrony.conf
+    source: config/chrony/chrony.conf
+    generator: copy
+    types:
+    - vm
+
+  - path: /etc/cloud/cloud.cfg
+    source: config/cloud-init/alpine.cfg
+    generator: copy
